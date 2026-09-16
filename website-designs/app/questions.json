@@ -1,0 +1,253 @@
+{
+  "title": "M-CHAT-R (Modified Checklist for Autism in Toddlers, Revised)",
+  "version": "2.0",
+  "target_age": "16-30 months",
+  "scoring": {
+    "low_risk": {"min": 0, "max": 2, "description": "Low Risk - No further action required unless surveillance indicates risk"},
+    "moderate_risk": {"min": 3, "max": 7, "description": "Moderate Risk - Refer for diagnostic evaluation"},
+    "high_risk": {"min": 8, "max": 20, "description": "High Risk - Immediate referral for diagnostic evaluation"}
+  },
+  "reverse_scored_items": [2, 5, 12],
+  "questions": [
+    {
+      "id": 1,
+      "text": "If you point at something across the room, does your child look at it?",
+      "short_form": "Point following",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A2"],
+      "domain": "joint_attention",
+      "examples": {
+        "pass": "Child looks across room at toy/object when parent points",
+        "fail": "Child looks at parent's hand instead of object, or ignores pointing"
+      }
+    },
+    {
+      "id": 2,
+      "text": "Have you ever wondered if your child might be deaf?",
+      "short_form": "Deaf concern",
+      "at_risk_response": "yes",
+      "dsm5_mapping": ["A1"],
+      "domain": "social_responsiveness",
+      "examples": {
+        "pass": "Parent has never had concerns about hearing",
+        "fail": "Parent has wondered if child is deaf due to lack of response to name/sounds"
+      }
+    },
+    {
+      "id": 3,
+      "text": "Does your child play pretend or make-believe?",
+      "short_form": "Pretend play",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A3", "B1"],
+      "domain": "imaginative_play",
+      "examples": {
+        "pass": "Pretends to feed doll, talks on toy phone, pretends to cook",
+        "fail": "Only lines up toys, spins wheels, no imaginative scenarios"
+      }
+    },
+    {
+      "id": 4,
+      "text": "Does your child like climbing on things?",
+      "short_form": "Climbing",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["B4"],
+      "domain": "sensory_motor",
+      "examples": {
+        "pass": "Climbs on furniture, playground equipment, stairs",
+        "fail": "Avoids climbing, seems afraid or uninterested"
+      }
+    },
+    {
+      "id": 5,
+      "text": "Does your child make unusual finger movements near his or her eyes?",
+      "short_form": "Unusual finger movements",
+      "at_risk_response": "yes",
+      "dsm5_mapping": ["B1"],
+      "domain": "stereotyped_behaviors",
+      "examples": {
+        "pass": "No unusual finger movements near eyes",
+        "fail": "Wiggles fingers close to eyes, looks at hands from unusual angles"
+      }
+    },
+    {
+      "id": 6,
+      "text": "Does your child point with one finger to ask for something or to get help?",
+      "short_form": "Pointing to request",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A2"],
+      "domain": "nonverbal_communication",
+      "examples": {
+        "pass": "Points with index finger to request food, toy, help",
+        "fail": "Uses whole hand, leads adult by hand, doesn't point"
+      }
+    },
+    {
+      "id": 7,
+      "text": "Does your child point with one finger to show you something interesting?",
+      "short_form": "Pointing to share interest",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1", "A2"],
+      "domain": "joint_attention",
+      "examples": {
+        "pass": "Points to airplane, dog, interesting object to share experience",
+        "fail": "Doesn't point to share, only points for requests or not at all"
+      }
+    },
+    {
+      "id": 8,
+      "text": "Is your child interested in other children?",
+      "short_form": "Interest in children",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A3"],
+      "domain": "social_interest",
+      "examples": {
+        "pass": "Watches other children, tries to play near them, excited to see peers",
+        "fail": "Ignores other children, prefers to play alone, indifferent"
+      }
+    },
+    {
+      "id": 9,
+      "text": "Does your child show you things by bringing them to you or holding them up for you to see?",
+      "short_form": "Showing objects",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1", "A2"],
+      "domain": "joint_attention",
+      "examples": {
+        "pass": "Brings toy to show parent, holds up picture for parent to see",
+        "fail": "Plays alone, doesn't share objects or experiences"
+      }
+    },
+    {
+      "id": 10,
+      "text": "Does your child respond when you call his or her name?",
+      "short_form": "Response to name",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1"],
+      "domain": "social_responsiveness",
+      "examples": {
+        "pass": "Looks up, turns toward parent when name is called",
+        "fail": "Ignores name most of the time, needs multiple calls"
+      }
+    },
+    {
+      "id": 11,
+      "text": "When you smile at your child, does he or she smile back at you?",
+      "short_form": "Social smile",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1"],
+      "domain": "social_reciprocity",
+      "examples": {
+        "pass": "Returns smile, shares enjoyment through facial expression",
+        "fail": "Rarely smiles back, flat affect, doesn't engage"
+      }
+    },
+    {
+      "id": 12,
+      "text": "Does your child get upset by everyday noises?",
+      "short_form": "Noise sensitivity",
+      "at_risk_response": "yes",
+      "dsm5_mapping": ["B4"],
+      "domain": "sensory_reactivity",
+      "examples": {
+        "pass": "Tolerates normal household sounds without distress",
+        "fail": "Covers ears, cries with vacuum, blender, hand dryers"
+      }
+    },
+    {
+      "id": 13,
+      "text": "Does your child walk?",
+      "short_form": "Walking",
+      "at_risk_response": "no",
+      "dsm5_mapping": [],
+      "domain": "motor_development",
+      "examples": {
+        "pass": "Walks independently",
+        "fail": "Not yet walking by screening age"
+      }
+    },
+    {
+      "id": 14,
+      "text": "Does your child look you in the eye when you are talking to him or her, playing with him or her, or dressing him or her?",
+      "short_form": "Eye contact",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A2"],
+      "domain": "nonverbal_communication",
+      "examples": {
+        "pass": "Makes eye contact during interactions, conversations",
+        "fail": "Avoids eye contact, looks past people, fleeting gaze"
+      }
+    },
+    {
+      "id": 15,
+      "text": "Does your child try to copy what you do?",
+      "short_form": "Imitation",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1", "A3"],
+      "domain": "social_learning",
+      "examples": {
+        "pass": "Copies clapping, waving, cleaning, actions with objects",
+        "fail": "Doesn't imitate gestures or actions, ignores demonstrations"
+      }
+    },
+    {
+      "id": 16,
+      "text": "If you turn your head to look at something, does your child look around to see what you are looking at?",
+      "short_form": "Gaze following",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A2"],
+      "domain": "joint_attention",
+      "examples": {
+        "pass": "Follows parent's gaze to look at same object/event",
+        "fail": "Doesn't notice where parent is looking, doesn't follow gaze"
+      }
+    },
+    {
+      "id": 17,
+      "text": "Does your child try to get you to watch him or her?",
+      "short_form": "Attention seeking",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1"],
+      "domain": "social_reciprocity",
+      "examples": {
+        "pass": "Says 'look at me', performs for attention, seeks approval",
+        "fail": "Doesn't seek attention, plays independently without checking in"
+      }
+    },
+    {
+      "id": 18,
+      "text": "Does your child understand when you tell him or her to do something?",
+      "short_form": "Language comprehension",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1"],
+      "domain": "receptive_language",
+      "examples": {
+        "pass": "Follows simple commands like 'get your shoes', 'sit down'",
+        "fail": "Doesn't respond to instructions without gestures"
+      }
+    },
+    {
+      "id": 19,
+      "text": "If something new happens, does your child look at your face to see how you feel about it?",
+      "short_form": "Social referencing",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["A1", "A2"],
+      "domain": "social_reciprocity",
+      "examples": {
+        "pass": "Looks to parent when stranger arrives, new toy appears",
+        "fail": "Doesn't check parent's reaction in new situations"
+      }
+    },
+    {
+      "id": 20,
+      "text": "Does your child like movement activities?",
+      "short_form": "Movement activities",
+      "at_risk_response": "no",
+      "dsm5_mapping": ["B4"],
+      "domain": "sensory_motor",
+      "examples": {
+        "pass": "Enjoys being swung, bounced, rough-and-tumble play",
+        "fail": "Avoids movement, gets upset when picked up, dislikes swinging"
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "profile_name": "Moderate Likelihood",
+  "expected_score": "3-7",
+  "child_info": {
+    "name": "Liam",
+    "age_months": 24,
+    "gender": "male"
+  },
+  "additional_context": "Liam is our second child. He started walking at 14 months, which is later than his older sister. He says about 10 words but doesn't combine them yet. He's generally a happy kid but can be particular about certain things. His sister was much more social at this age, which has made us a little curious.",
+  "behaviors": {
+    "1_point_follow": {
+      "response": "yes",
+      "detail": "Usually yes, but sometimes he seems more interested in my hand than where I'm pointing. It's inconsistent."
+    },
+    "2_deaf_concern": {
+      "response": "no",
+      "detail": "No, we've never worried about his hearing. He hears us fine."
+    },
+    "3_pretend_play": {
+      "response": "no",
+      "detail": "Not really. He likes pushing his cars around but doesn't really pretend with them. He mostly lines them up or spins the wheels."
+    },
+    "4_climbing": {
+      "response": "yes",
+      "detail": "Yes, he likes climbing on the couch and playground equipment."
+    },
+    "5_finger_movements": {
+      "response": "no",
+      "detail": "No, I haven't noticed that."
+    },
+    "6_point_request": {
+      "response": "yes",
+      "detail": "Yes, he points when he wants something, though sometimes he just leads me by the hand to what he wants."
+    },
+    "7_point_share": {
+      "response": "no",
+      "detail": "Hmm, not really. He doesn't really point to show me things just for the sake of sharing. Only when he wants something."
+    },
+    "8_interest_children": {
+      "response": "yes",
+      "detail": "He watches other kids at the park, though he doesn't really try to play with them much. He seems interested from a distance."
+    },
+    "9_showing_objects": {
+      "response": "no",
+      "detail": "Not often. He doesn't really bring things to show me. He prefers to play on his own."
+    },
+    "10_response_name": {
+      "response": "yes",
+      "detail": "Usually, yes. Sometimes it takes a couple of calls, but he does respond."
+    },
+    "11_social_smile": {
+      "response": "yes",
+      "detail": "Yes, he smiles back at us. He's got a sweet smile."
+    },
+    "12_noise_sensitivity": {
+      "response": "yes",
+      "detail": "Actually yes - he really doesn't like the vacuum cleaner or the blender. He covers his ears and gets upset."
+    },
+    "13_walking": {
+      "response": "yes",
+      "detail": "Yes, he walks fine now. Started at 14 months."
+    },
+    "14_eye_contact": {
+      "response": "yes",
+      "detail": "Yes, though maybe not as much as his sister did. But he does look at us."
+    },
+    "15_imitation": {
+      "response": "yes",
+      "detail": "Sometimes. He'll copy clapping and waving, but not as much as I'd expect."
+    },
+    "16_gaze_follow": {
+      "response": "no",
+      "detail": "I'm not sure he does this consistently. Sometimes he seems to, but often he doesn't seem to notice where I'm looking."
+    },
+    "17_attention_seeking": {
+      "response": "yes",
+      "detail": "Yes, he does like when we watch him do things."
+    },
+    "18_understanding": {
+      "response": "yes",
+      "detail": "He understands basic instructions, especially routine ones like 'time for bed'."
+    },
+    "19_social_referencing": {
+      "response": "no",
+      "detail": "I don't think so. When something new happens, he doesn't really look to me for a reaction."
+    },
+    "20_movement_activities": {
+      "response": "yes",
+      "detail": "Yes, he enjoys being swung at the park."
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "profile_name": "Low Likelihood",
+  "expected_score": "0-2",
+  "child_info": {
+    "name": "Emma",
+    "age_months": 20,
+    "gender": "female"
+  },
+  "additional_context": "Emma is our first child. She started walking at 11 months and has been saying a few words like 'mama', 'dada', 'ball', and 'more'. She loves playing with her older cousins and is very social at daycare. She's always been curious and loves exploring new toys.",
+  "behaviors": {
+    "1_point_follow": {
+      "response": "yes",
+      "detail": "She always looks where I point. If I point at a bird outside, she gets excited and looks right at it."
+    },
+    "2_deaf_concern": {
+      "response": "no",
+      "detail": "No, never. She responds to her name and reacts to sounds immediately."
+    },
+    "3_pretend_play": {
+      "response": "yes",
+      "detail": "Oh yes! She loves pretending to feed her baby doll and has tea parties with her stuffed animals."
+    },
+    "4_climbing": {
+      "response": "yes",
+      "detail": "Definitely - she climbs on everything! The couch, chairs, playground equipment. We have to watch her constantly."
+    },
+    "5_finger_movements": {
+      "response": "no",
+      "detail": "No, I haven't noticed anything like that."
+    },
+    "6_point_request": {
+      "response": "yes",
+      "detail": "Yes, she points at things she wants - snacks, toys, her cup when she's thirsty."
+    },
+    "7_point_share": {
+      "response": "yes",
+      "detail": "All the time! She points at dogs, airplanes, anything interesting and looks at me to make sure I see it too."
+    },
+    "8_interest_children": {
+      "response": "yes",
+      "detail": "She loves other kids. At daycare, she's always excited to see her friends and tries to play with them."
+    },
+    "9_showing_objects": {
+      "response": "yes",
+      "detail": "Yes, she brings me her toys and books all the time. She loves showing me things."
+    },
+    "10_response_name": {
+      "response": "yes",
+      "detail": "Yes, she usually looks up right away when I call her name."
+    },
+    "11_social_smile": {
+      "response": "yes",
+      "detail": "Absolutely! She has the biggest smile and always smiles back when we smile at her."
+    },
+    "12_noise_sensitivity": {
+      "response": "no",
+      "detail": "No, she's pretty easygoing with noises. The vacuum doesn't bother her at all."
+    },
+    "13_walking": {
+      "response": "yes",
+      "detail": "Yes, she's been walking since 11 months. Now she's running everywhere!"
+    },
+    "14_eye_contact": {
+      "response": "yes",
+      "detail": "Yes, she makes good eye contact, especially when we're playing or reading together."
+    },
+    "15_imitation": {
+      "response": "yes",
+      "detail": "She copies everything we do! Clapping, waving, even trying to sweep with a broom."
+    },
+    "16_gaze_follow": {
+      "response": "yes",
+      "detail": "Yes, if I look at something, she follows my gaze to see what I'm looking at."
+    },
+    "17_attention_seeking": {
+      "response": "yes",
+      "detail": "Oh yes, she loves showing off. She'll do something and then look at us to make sure we're watching."
+    },
+    "18_understanding": {
+      "response": "yes",
+      "detail": "Yes, she understands simple things like 'get your shoes' or 'time for bath'."
+    },
+    "19_social_referencing": {
+      "response": "yes",
+      "detail": "Yes, when something new happens, she looks at me like she's checking if it's okay."
+    },
+    "20_movement_activities": {
+      "response": "yes",
+      "detail": "She loves being swung and bounced! She giggles and asks for more."
+    }
+  }
+}

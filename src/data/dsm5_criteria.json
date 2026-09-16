@@ -1,0 +1,181 @@
+{
+  "title": "DSM-5 Autism Spectrum Disorder Diagnostic Criteria",
+  "source": "Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5)",
+  "note": "Symptoms must be present in early developmental period and cause clinically significant impairment",
+  "criteria": {
+    "A": {
+      "title": "Persistent deficits in social communication and social interaction across multiple contexts",
+      "requirement": "Must meet ALL three subcriteria (A1, A2, A3)",
+      "subcriteria": {
+        "A1": {
+          "title": "Deficits in social-emotional reciprocity",
+          "description": "Ranging from abnormal social approach and failure of normal back-and-forth conversation; to reduced sharing of interests, emotions, or affect; to failure to initiate or respond to social interactions",
+          "exemplars": [
+            "Abnormal social approach",
+            "Failure of normal back-and-forth conversation",
+            "Reduced sharing of interests",
+            "Reduced sharing of emotions or affect",
+            "Failure to initiate social interactions",
+            "Failure to respond to social interactions"
+          ],
+          "toddler_indicators": [
+            "Does not respond to name when called",
+            "Does not share enjoyment or interests with others",
+            "Does not seek attention from caregivers",
+            "Limited social smiling or emotional expression",
+            "Does not imitate others' actions",
+            "Does not look to caregiver for reaction in new situations"
+          ],
+          "mchat_items": [2, 7, 9, 10, 11, 15, 17, 18, 19]
+        },
+        "A2": {
+          "title": "Deficits in nonverbal communicative behaviors used for social interaction",
+          "description": "Ranging from poorly integrated verbal and nonverbal communication; to abnormalities in eye contact and body language or deficits in understanding and use of gestures; to a total lack of facial expressions and nonverbal communication",
+          "exemplars": [
+            "Poorly integrated verbal and nonverbal communication",
+            "Abnormalities in eye contact",
+            "Abnormalities in body language",
+            "Deficits in understanding gestures",
+            "Deficits in use of gestures",
+            "Lack of facial expressions",
+            "Lack of nonverbal communication"
+          ],
+          "toddler_indicators": [
+            "Limited or unusual eye contact",
+            "Does not follow pointing or gaze",
+            "Does not point to share interest",
+            "Does not use gestures to communicate",
+            "Limited facial expressions during interactions"
+          ],
+          "mchat_items": [1, 6, 7, 9, 14, 16, 19]
+        },
+        "A3": {
+          "title": "Deficits in developing, maintaining, and understanding relationships",
+          "description": "Ranging from difficulties adjusting behavior to suit various social contexts; to difficulties in sharing imaginative play or in making friends; to absence of interest in peers",
+          "exemplars": [
+            "Difficulties adjusting behavior to social contexts",
+            "Difficulties sharing imaginative play",
+            "Difficulties making friends",
+            "Absence of interest in peers"
+          ],
+          "toddler_indicators": [
+            "Limited interest in other children",
+            "Does not engage in pretend play",
+            "Prefers to play alone",
+            "Does not imitate social play"
+          ],
+          "mchat_items": [3, 8, 15]
+        }
+      }
+    },
+    "B": {
+      "title": "Restricted, repetitive patterns of behavior, interests, or activities",
+      "requirement": "Must meet at least TWO of four subcriteria (B1, B2, B3, B4)",
+      "subcriteria": {
+        "B1": {
+          "title": "Stereotyped or repetitive motor movements, use of objects, or speech",
+          "description": "Such as simple motor stereotypies, lining up toys or flipping objects, echolalia, idiosyncratic phrases",
+          "exemplars": [
+            "Simple motor stereotypies (hand flapping, finger flicking)",
+            "Lining up toys",
+            "Flipping objects",
+            "Echolalia (repeating words/phrases)",
+            "Idiosyncratic phrases",
+            "Repetitive use of objects"
+          ],
+          "toddler_indicators": [
+            "Unusual finger movements near eyes",
+            "Lines up toys instead of playing with them",
+            "Spins wheels or other object parts repeatedly",
+            "Flaps hands when excited or upset",
+            "Rocks body back and forth"
+          ],
+          "mchat_items": [3, 5]
+        },
+        "B2": {
+          "title": "Insistence on sameness, inflexible adherence to routines, or ritualized patterns",
+          "description": "Such as extreme distress at small changes, difficulties with transitions, rigid thinking patterns, greeting rituals, need to take same route or eat same food every day",
+          "exemplars": [
+            "Extreme distress at small changes",
+            "Difficulties with transitions",
+            "Rigid thinking patterns",
+            "Greeting rituals",
+            "Need for same route",
+            "Need for same food every day"
+          ],
+          "toddler_indicators": [
+            "Extreme distress with minor changes in routine",
+            "Insists on specific rituals",
+            "Difficulty transitioning between activities"
+          ],
+          "mchat_items": []
+        },
+        "B3": {
+          "title": "Highly restricted, fixated interests that are abnormal in intensity or focus",
+          "description": "Such as strong attachment to or preoccupation with unusual objects, excessively circumscribed or perseverative interests",
+          "exemplars": [
+            "Strong attachment to unusual objects",
+            "Preoccupation with unusual objects",
+            "Excessively circumscribed interests",
+            "Perseverative interests"
+          ],
+          "toddler_indicators": [
+            "Unusual attachment to specific objects",
+            "Fixated on specific topics or activities",
+            "Intense focus on parts of objects"
+          ],
+          "mchat_items": []
+        },
+        "B4": {
+          "title": "Hyper- or hyporeactivity to sensory input or unusual interest in sensory aspects of the environment",
+          "description": "Such as apparent indifference to pain/temperature, adverse response to specific sounds or textures, excessive smelling or touching of objects, visual fascination with lights or movement",
+          "exemplars": [
+            "Apparent indifference to pain/temperature",
+            "Adverse response to specific sounds",
+            "Adverse response to specific textures",
+            "Excessive smelling of objects",
+            "Excessive touching of objects",
+            "Visual fascination with lights or movement"
+          ],
+          "toddler_indicators": [
+            "Upset by everyday sounds (vacuum, blender)",
+            "Unusual response to textures",
+            "Fascination with lights or spinning objects",
+            "Avoids or seeks specific sensory input",
+            "Unusual reaction to movement activities"
+          ],
+          "mchat_items": [4, 12, 20]
+        }
+      }
+    },
+    "C": {
+      "title": "Symptoms present in early developmental period",
+      "description": "Symptoms must be present in the early developmental period (but may not become fully manifest until social demands exceed limited capacities, or may be masked by learned strategies in later life)"
+    },
+    "D": {
+      "title": "Clinically significant impairment",
+      "description": "Symptoms cause clinically significant impairment in social, occupational, or other important areas of current functioning"
+    },
+    "E": {
+      "title": "Not better explained by intellectual disability",
+      "description": "These disturbances are not better explained by intellectual disability (intellectual developmental disorder) or global developmental delay. Intellectual disability and autism spectrum disorder frequently co-occur; to make comorbid diagnoses of autism spectrum disorder and intellectual disability, social communication should be below that expected for general developmental level"
+    }
+  },
+  "severity_levels": {
+    "level_1": {
+      "title": "Level 1: Requiring Support",
+      "social_communication": "Without supports in place, deficits in social communication cause noticeable impairments. Difficulty initiating social interactions, and clear examples of atypical or unsuccessful responses to social overtures of others. May appear to have decreased interest in social interactions.",
+      "restricted_behaviors": "Inflexibility of behavior causes significant interference with functioning in one or more contexts. Difficulty switching between activities. Problems of organization and planning hamper independence."
+    },
+    "level_2": {
+      "title": "Level 2: Requiring Substantial Support",
+      "social_communication": "Marked deficits in verbal and nonverbal social communication skills; social impairments apparent even with supports in place; limited initiation of social interactions; and reduced or abnormal responses to social overtures from others.",
+      "restricted_behaviors": "Inflexibility of behavior, difficulty coping with change, or other restricted/repetitive behaviors appear frequently enough to be obvious to the casual observer and interfere with functioning in a variety of contexts. Distress and/or difficulty changing focus or action."
+    },
+    "level_3": {
+      "title": "Level 3: Requiring Very Substantial Support",
+      "social_communication": "Severe deficits in verbal and nonverbal social communication skills cause severe impairments in functioning, very limited initiation of social interactions, and minimal response to social overtures from others.",
+      "restricted_behaviors": "Inflexibility of behavior, extreme difficulty coping with change, or other restricted/repetitive behaviors markedly interfere with functioning in all spheres. Great distress/difficulty changing focus or action."
+    }
+  }
+}

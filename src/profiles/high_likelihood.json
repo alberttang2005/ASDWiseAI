@@ -1,0 +1,92 @@
+{
+  "profile_name": "High Likelihood",
+  "expected_score": "8-20",
+  "child_info": {
+    "name": "Alex",
+    "age_months": 22,
+    "gender": "male"
+  },
+  "additional_context": "Alex is our first child. He started walking at 15 months. He has very few words - maybe 3 or 4 that he uses inconsistently. He's a sweet boy but seems to be in his own world a lot. He really loves spinning things and can watch the washing machine for a long time. Grandma mentioned that he seems different from other kids his age, which is why we're doing this screening.",
+  "behaviors": {
+    "1_point_follow": {
+      "response": "no",
+      "detail": "He usually looks at my hand or finger instead of where I'm pointing. It's like he doesn't understand what pointing means."
+    },
+    "2_deaf_concern": {
+      "response": "yes",
+      "detail": "Actually, yes. We've wondered about that. He often doesn't respond when we call his name, especially if he's focused on something."
+    },
+    "3_pretend_play": {
+      "response": "no",
+      "detail": "No, not really. He likes lining up his cars in rows and spinning their wheels, but he doesn't pretend to drive them or make car sounds."
+    },
+    "4_climbing": {
+      "response": "no",
+      "detail": "He's not very interested in climbing. He seems a bit cautious about physical activities."
+    },
+    "5_finger_movements": {
+      "response": "yes",
+      "detail": "Yes, he does this thing where he wiggles his fingers in front of his eyes, especially when he's excited or looking at lights."
+    },
+    "6_point_request": {
+      "response": "no",
+      "detail": "No, he doesn't really point. He usually takes my hand and leads me to what he wants, or just cries until we figure it out."
+    },
+    "7_point_share": {
+      "response": "no",
+      "detail": "No, he doesn't point to show us things. He doesn't seem interested in sharing experiences like that."
+    },
+    "8_interest_children": {
+      "response": "no",
+      "detail": "Not really. At the playground, he ignores other children. He's more interested in the fence or the sandbox than the other kids."
+    },
+    "9_showing_objects": {
+      "response": "no",
+      "detail": "No, he doesn't bring things to show us. He plays by himself and doesn't try to involve us."
+    },
+    "10_response_name": {
+      "response": "no",
+      "detail": "Rarely. We have to call his name many times or go to him physically. Sometimes we wonder if he even knows his name."
+    },
+    "11_social_smile": {
+      "response": "no",
+      "detail": "Not consistently. Sometimes he smiles, but often when we smile at him, he looks away or doesn't react."
+    },
+    "12_noise_sensitivity": {
+      "response": "yes",
+      "detail": "Yes, definitely. He covers his ears and screams when the vacuum is on, or if there's a loud unexpected noise."
+    },
+    "13_walking": {
+      "response": "yes",
+      "detail": "Yes, he walks. He started at 15 months."
+    },
+    "14_eye_contact": {
+      "response": "no",
+      "detail": "He doesn't make much eye contact. When I try to look into his eyes, he often looks past me or turns away."
+    },
+    "15_imitation": {
+      "response": "no",
+      "detail": "No, he doesn't copy us. When I wave or clap, he doesn't try to do it back."
+    },
+    "16_gaze_follow": {
+      "response": "no",
+      "detail": "No, he doesn't follow my gaze. He doesn't seem to notice what I'm looking at."
+    },
+    "17_attention_seeking": {
+      "response": "no",
+      "detail": "No, he doesn't really try to get our attention. He's content playing alone and doesn't check to see if we're watching."
+    },
+    "18_understanding": {
+      "response": "no",
+      "detail": "He doesn't seem to understand much of what we say. We can't give him simple instructions without showing him what to do."
+    },
+    "19_social_referencing": {
+      "response": "no",
+      "detail": "No, he doesn't look to us when something new happens. He just reacts on his own or ignores it."
+    },
+    "20_movement_activities": {
+      "response": "no",
+      "detail": "He doesn't like being swung or bounced. He gets upset and stiffens up when we try."
+    }
+  }
+}
