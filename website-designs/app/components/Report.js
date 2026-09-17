@@ -1,7 +1,7 @@
 'use client';
 export default function Report({report,session,onBack}) {
  const stale=report.revision!==session.revision;
- return <section className="report detailed-report"><div className="eyebrow">{report.mode==='simulation'?'SYNTHETIC DEMONSTRATION':'CAREGIVER SCREENING REPORT'}</div><h1>A clearer picture.<br/>A thoughtful next step.</h1><p>{report.child.name} · {report.child.age} months · {new Date(report.created).toLocaleDateString()}</p>
+ return <section className="report detailed-report"><div className="eyebrow">CAREGIVER SCREENING REPORT</div><h1>A clearer picture.<br/>A thoughtful next step.</h1><p>{report.child.name} · {report.child.age} months · {new Date(report.created).toLocaleDateString()}</p>
  {stale&&<div className="notice" role="alert">Your responses have changed. Generate an updated report before downloading.</div>}
  <div className="report-actions"><button className="secondary" onClick={onBack}>← Review responses</button>{!stale&&<a className="primary" href={`/api/sessions/${session.id}/reports/${report.id}/pdf`}>Download PDF ↓</a>}</div>
  <nav className="report-jump" aria-label="Report sections"><a href="#score">Screening</a><a href="#observations">Observations</a><a href="#assessment">Assessment</a><a href="#recommendations">Next steps</a></nav>

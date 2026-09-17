@@ -1,4 +1,4 @@
-import { randomUUID, timingSafeEqual } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import { cookies } from 'next/headers';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -7,16 +7,10 @@ async function proxy(request, {params}) {
   const origin = request.headers.get('origin');
   if (!['GET','HEAD'].includes(request.method) && (!origin || origin !== new URL(request.url).origin))
     return Response.json({detail:'Request origin was not accepted.'},{status:403});
-  // Optional deployment login. Local launcher binds both processes to loopback.
-  if (process.env.ASDWISE_ACCESS_PASSWORD) {
-    const expected = `Basic ${Buffer.from(`caregiver:${process.env.ASDWISE_ACCESS_PASSWORD}`).toString('base64')}`;
-    const received = request.headers.get('authorization') || '';
-    if (received.length !== expected.length || !timingSafeEqual(Buffer.from(received),Buffer.from(expected)))
-      return new Response('Sign in to the private pilot.',{status:401,headers:{'WWW-Authenticate':'Basic realm="ASDWise private pilot"'}});
-  }
   if (!process.env.ASDWISE_GATEWAY_SECRET) return Response.json({detail:'Start the app with npm run pilot to connect the backend.'},{status:503});
   const jar = await cookies(); let owner=jar.get('asdwise_owner')?.value;
-  if (!owner || !uuid.test(owner)) {owner=randomUUID();jar.set('asdwise_owner',owner,{httpOnly:true,sameSite:'strict',secure:new URL(request.url).protocol==='https:',path:'/',maxAge:7*86400});}
+  if (!owner || !uuid.test(owner)) owner=randomUUID();
+  jar.set('asdwise_owner',owner,{httpOnly:true,sameSite:'strict',secure:new URL(request.url).protocol==='https:',path:'/'});
   const {path} = await params;
   const url = new URL(`/${path.map(encodeURIComponent).join('/')}`,process.env.ASDWISE_API_URL || 'http://127.0.0.1:8001');
   const length=Number(request.headers.get('content-length') || 0);

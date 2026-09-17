@@ -1,12 +1,12 @@
 # ASDWise Haven: caregiver-facing screening application plan
 
-Updated September 16, 2026 following the product clarification: deliver a real caregiver-facing screening web application, not a demo. The September 15 local pilot is the implementation baseline, not the finished product. See IMPLEMENTATION_STATUS.md for completed work and remaining verification. This plan describes intended work; it does not claim production readiness.
+Updated September 17, 2026 following the product clarification: deliver a real caregiver-facing screening web application, not a demo. The September 15 local pilot is the implementation baseline, not the finished product. See IMPLEMENTATION_STATUS.md for completed work and remaining verification. This plan describes intended work; it does not claim production readiness.
 
 ## 1. Target experience
 
 Keep the selected Haven design. A caregiver enters a child's preferred name, age in months, and caregiver relationship, chooses typing or microphone input, and talks with an explicitly labeled AI screening guide (the conversational guide). The guide asks the screening questions, clarifies ambiguous answers, and records caregiver-confirmed responses. After review, the caregiver generates a detailed, explainable screening report and downloads a PDF.
 
-Remove demo selection, synthetic profiles, simulation controls, and offline template reports from the caregiver-facing application. Keep fictional fixtures only in development and automated tests; production APIs must reject synthetic-session creation and demo actions, not merely hide their controls. Preserve unrelated Streamlit research code. Keep pause, resume, review, and deletion for real screening sessions. Label the agent as an AI screening guide throughout.
+Remove demo selection, synthetic profiles, simulation controls, and offline template reports from the caregiver-facing application. Keep fictional fixtures only in development and automated tests; production APIs must reject synthetic-session creation and demo actions, not merely hide their controls. Preserve unrelated Streamlit research code. Keep pause, resume, review, and deletion within the current open screening session only. Label the agent as an AI screening guide throughout.
 
 ## 2. Reuse and changes by source module
 
@@ -39,7 +39,9 @@ Proposed server-owned records:
 - Answer: question ID, yes/no/unknown, caregiver confirmation, supporting turn IDs, notes, revision.
 - Report: immutable input revision, deterministic score, validated analysis, references, model/prompt versions, generation status.
 
-Replace the temporary local SQLite deployment with durable production storage (planned Postgres), migrations, backups, and a tested restore procedure. Retain a local development configuration. Store data outside the Google Drive-synced repository and outside git. Require production identity/session access controls, ownership checks on every read/write/export, encryption appropriate to storage/hosting, and documented retention and deletion controls. Select a recoverable caregiver sign-in or secure resume-link flow before implementation; the existing browser cookie alone does not provide cross-device recovery. Do not store transcripts in browser localStorage or ordinary application logs. Raw recordings are temporary by default; discard app copies after transcription or cancellation and describe provider processing separately.
+Use temporary process memory only: no accounts, sign-in, database, disk persistence, or saved interview history. A short-lived anonymous browser session isolates concurrent caregivers without identifying them. Clear temporary data when the caregiver ends the session, after 30 minutes without updates (cleanup within 30 seconds), and at process shutdown. Reports are generated in memory and downloaded by the caregiver; the app keeps no durable copy. Warn that leaving or refreshing the page loses access to the interview. Do not store transcripts in browser storage, logs, analytics, backups, or job queues. Provider processing and retention are a separate concern and must be disclosed accurately; app-level non-persistence is not a claim of provider zero retention.
+
+Use a single Python process initially so requests share volatile session state. Deployment must route the active session to this process; automatic restarts lose sessions by design. Bound session counts, payloads and jobs to limit memory and cost. Do not introduce a database or durable queue to address scaling without revisiting the user's explicit no-storage requirement.
 
 Suggested API contract:
 
@@ -121,7 +123,7 @@ Specific correction from the supplied sample: its Q3 play observation is reused 
 
 Remove all demo entry points and production simulation endpoints. Retain Haven, onboarding, consent, typing/voice, confirmation, review, and resume. Explain age eligibility and the distinction between screening and diagnosis before starting. Provide a useful next step for caregivers outside the supported age range. Configure the provided environment file server-side and test the existing provider adapters using fictional data. If the provider is unavailable, show an honest retryable error; never substitute a synthetic report.
 
-Acceptance: a real-mode 20-item interview survives refresh, confirms Q20, handles unknown answers without a final classification, and recovers from retries without duplicate turns. A production API request cannot create a synthetic session. No key appears in browser bundles, logs, or responses. Test live text, transcription, speech, and evaluator calls; physical microphone checks remain a real-device test.
+Acceptance: a real-mode 20-item interview completes within the open page, confirms Q20, handles unknown answers without a final classification, and recovers from retries without duplicate turns. A production API request cannot create a synthetic session. No key appears in browser bundles, logs, or responses. Test live text, transcription, speech, and evaluator calls; physical microphone checks remain a real-device test.
 
 ### Phase 2 — Complete screening and evidence-grounded reports
 
@@ -129,31 +131,31 @@ Implement authorized formal Follow-Up flows, separate initial and Follow-Up answ
 
 Acceptance: test each implemented Follow-Up branch, scoring boundaries, corrections, incomplete paths, and report regeneration. Every quote and citation validates. A failed AI analysis remains retryable while confirmed answers stay saved. Caregivers can review results and download a readable PDF. Qualified review of report interpretations and recommendations is a release gate; synthetic agreement is not clinical validation.
 
-### Phase 3 — Production privacy, access, and durable storage
+### Phase 3 — Anonymous use and no persistent data
 
-Implement the selected caregiver authentication/resume design, durable storage migrations, session ownership, secure expiring access, consent version records, retention jobs, deletion, backups, and restore. Decide what child information is necessary and minimize collection. Explain app and provider handling of transcripts/audio in the privacy notice. Keep raw recordings transient by default. Cover reports and derived records in deletion; document backup expiry. Keep sensitive information out of analytics and routine logs.
+No sign-in or accounts. Replace SQLite with volatile memory, remove saved-session lists and persistent owner cookies, and give caregivers an explicit end-and-clear action. Document the temporary processing lifetime and loss of progress on refresh/exit/restart. Keep report downloads available during the active session only. Never write uploaded audio, transcripts, reports or session state to disk. Review provider data handling separately.
 
-Acceptance: independent users cannot retrieve, alter, stream, or download each other's records. Expired sessions and access links fail correctly. Restore and retention/deletion tests pass. Data survives application restarts and deployment. Hosting region, provider handling, applicable privacy obligations, and public policy text are reviewed for the intended audience before collecting real caregiver information.
+Acceptance: no session files are created; independent anonymous sessions remain isolated; deletion and expiry remove data; restarting creates an empty store. The UI does not promise later recovery. Caregivers can complete the screening and download their report without signing in.
 
 ### Phase 4 — Reliability, accessibility, and operational controls
 
-Replace process-local report tasks and locks with durable jobs and concurrency controls suitable for the chosen deployment. Add bounded retries, timeouts, per-user request and spending limits, safe error reporting, service health checks, and redacted monitoring. Test keyboard and screen-reader use, responsive layouts, permission denial, silence, interrupted uploads, and session recovery. Use the same confirmed-text path for typed and spoken responses.
+Keep report tasks and locks in the same volatile process; cancel tasks on shutdown and do not recover sessions after restart. Bound active jobs and memory for the chosen deployment. Add bounded retries, timeouts, per-user request and spending limits, safe error reporting, service health checks, and redacted monitoring. Test keyboard and screen-reader use, responsive layouts, permission denial, silence, interrupted uploads, and session recovery. Use the same confirmed-text path for typed and spoken responses.
 
-Acceptance: failed/restarted workers recover jobs without duplicate reports; concurrent requests cannot advance a session twice; voice cancellation releases the microphone and preserves work; stale reports are clearly identified. Accessibility and supported real-device/browser checks pass. Abuse controls constrain unauthenticated and authenticated costs.
+Acceptance: failed jobs remain retryable within the active session and restarts clear all session data; concurrent requests cannot advance a session twice; voice cancellation releases the microphone and preserves work; stale reports are clearly identified. Accessibility and supported real-device/browser checks pass. Abuse controls constrain unauthenticated and authenticated costs.
 
 ### Phase 5 — Deployment and release verification
 
-Choose hosting for Next.js, private Python API, database, and durable workers. Configure HTTPS, deployment secrets, environment separation, migrations, backups, monitoring, and rollback. Run end-to-end fictional caregiver sessions on the deployed environment before real-data use. Complete clinical-content, instrument-permission, privacy, and security release reviews. Start with a controlled real-caregiver release and track failures and usability feedback.
+Choose hosting for Next.js, private single-process Python API. Configure HTTPS, deployment secrets, environment separation, memory limits, redacted monitoring, and rollback. Run end-to-end fictional caregiver sessions on the deployed environment before real-data use. Complete clinical-content, instrument-permission, privacy, and security release reviews. Start with a controlled real-caregiver release and track failures and usability feedback.
 
-Acceptance: typed and microphone sessions produce reviewed downloadable reports on the deployed site; recovery, ownership, retention/deletion, and report-job checks pass. No synthetic controls or fixture data appear in the production app. Record the evidence and owner for each release gate; do not label unfinished work production-ready.
+Acceptance: typed and microphone sessions produce reviewed downloadable reports on the deployed site; isolation, expiry/deletion, and report-job checks pass. No synthetic controls or fixture data appear in the production app. Record the evidence and owner for each release gate; do not label unfinished work production-ready.
 
 ## 9. Credentials, decisions, and scope
 
-The user-provided rich-text environment file has been converted to plain text at `/Users/amyzhuang/Documents/APPs/ASDWise/.env`; an `OPENAI_API_KEY` assignment is present. This confirms file access only, not key validity, model access, or a successful live call. Load it through the existing explicit server configuration for local verification. Use deployment secrets in production. Never expose the key in client code, logs, reports, or chat.
+The user-provided rich-text environment file has been converted to plain text at `/Users/amyzhuang/Documents/APPs/ASDWise/.env`; an `OPENAI_API_KEY` assignment is present. Live guide, speech, and transcription calls have passed using fictional data; a fictional end-to-end evaluator report and PDF download have also passed. Load it through the existing explicit server configuration for local verification. Use deployment secrets in production. Never expose the key in client code, logs, reports, or chat.
 
-Confirmed: Haven design; real caregiver-facing screening; detailed evidence-grounded reports; typing and editable microphone transcription; no caregiver-facing demo; no diagnosis or support-severity assignment.
+Confirmed: Haven design; real caregiver-facing screening; detailed evidence-grounded reports; typing and editable microphone transcription; no caregiver-facing demo; no sign-in, account, database, or saved history; no diagnosis or support-severity assignment.
 
-Planning assumptions: English first, existing instrument age scope until verified, no default raw-audio retention, Next.js plus Python, and managed durable storage. Decisions still needed before their dependent implementation: hosting and data region, caregiver sign-in/resume method, retention duration, operating budget, and qualified content/release reviewer. Present concrete options when these decisions become necessary; they do not block removal of demo flows or fictional-data live integration tests.
+Planning assumptions: English first, existing instrument age scope until verified, no default raw-audio retention, Next.js plus Python, and temporary memory-only processing. Decisions still needed before their dependent implementation: hosting and data region, operating budget, and qualified content/release reviewer. Present concrete options when these decisions become necessary; they do not block removal of demo flows or fictional-data live integration tests.
 
 Out of initial scope: continuous hands-free voice, additional languages, clinician portals, and claims of clinical validation. Research fixtures remain internal test assets only.
 

@@ -1,35 +1,27 @@
-# Implementation status — updated September 16, 2026
+# Implementation status — September 17, 2026
 
-Product target: a real caregiver-facing screening application. The delivered work below describes the local pilot baseline; demo functionality is scheduled for removal from the production app. See IMPLEMENTATION_PLAN.md for the revised release sequence.
+## Current milestone: anonymous caregiver screening
 
-## Delivered
+- Removed demo selection, simulation controls, saved-session history, and optional sign-in from the caregiver application. Production API contracts reject simulation sessions and step actions.
+- Replaced SQLite and filesystem encryption keys with temporary process memory. No caregiver session files are created or read. Anonymous browser session cookies isolate users without accounts.
+- Added end-and-clear behavior, best-effort cleanup on page exit, 30-minute expiry with periodic cleanup, and clearing at process shutdown. Reports remain downloadable only during the active session.
+- Added explicit eligibility and processing information, consent-version recording, and honest unavailable-service behavior without demo fallbacks.
+- Kept answer confirmation, ambiguity handling, deterministic scoring, supplemental context, detailed report rendering, and voice controls.
+- Moved offline report fixtures out of production report code and into the test suite.
 
-- Haven onboarding, conversational UI, typed and voice response paths, explicit answer confirmation, clarification without advancing, quick answers, and complete transcript review.
-- Python FastAPI service with session revision checks, retry idempotency, encrypted SQLite storage outside the repository, per-browser ownership, seven-day expiry, and deletion.
-- Deterministic scoring reused from the Python application, hardened against unresolved inputs. The legacy therapist now only extracts unambiguous standalone answers automatically; narrative interpretation in the web app requires caregiver confirmation.
-- Separate synthetic profiles, manual/automatic stepping, pause/resume/reset, and refresh recovery.
-- Supplemental onset, daily impact, routines, and interests observations.
-- Structured OpenAI therapist/evaluator adapters; separately configurable text, transcription, and speech models. Explicit server-only environment loading.
-- Page-indexed extraction of the supplied DSM exemplar document, author/date/checksum provenance, a separately identified CDC published-criteria summary, quote validation, criterion/reference validation, and conservative evidence requirements.
-- Detailed report UI and PDF download from shared report data, immutable revisions, stale-report detection, and background report generation with streamed status updates.
-- Same-origin Next.js gateway, hidden private gateway secret, upload/request limits, HTTP-only owner cookies, loopback-only pilot launcher, optional private-pilot API password.
+## Verification
 
-## Validation completed
+- 17 regression tests pass, including rejected demo requests, ownership, unavailable provider, age validation, scoring, full interviews using fictional fixtures, report/PDF generation, expiry, and no session files on disk.
+- Next.js production build passed after the anonymous-flow changes; anonymous onboarding and answer advancement also passed in the browser.
+- Live OpenAI guide, generated speech, and transcription calls passed using fictional data.
+- Live report generation and PDF download passed using fictional data after tightening the seven-section schema, supplying question/validation context, and normalizing section order. Exact quote/source validation remains enforced. This test does not establish clinical validity.
 
-- 14 automated tests passed using synthetic data and a fake provider.
-- Tested low/moderate/high profiles, 2/3 and 7/8 score boundaries, reverse-scored items, unknown/missing answers, final Q20 response, clarification, retries, paused writes, stale revisions, ownership isolation, provider failure, job restart recovery, transcript evidence, invalid citations, encrypted storage/reload, transcription endpoint behavior, and PDF generation.
-- Next.js production build passed.
-- In-browser completion of all 20 synthetic Liam responses, persisted session recovery, review navigation, background report generation, and report rendering.
-- Mobile onboarding and report checked at 390px; no horizontal page overflow.
-- All five pages of the generated demo PDF visually reviewed; headings, quotes, tables, and footers are readable and unclipped.
+## Remaining release work
 
-## Explicit boundaries / outstanding release gates
+- Complete real-device microphone/accessibility checks and broader report quality review.
+- Implement authorized formal M-CHAT-R Follow-Up; moderate initial results still show Follow-Up pending.
+- Review published reference grounding, instrument permissions, interpretations, and recommendations.
+- Choose production hosting with HTTPS, private API access, bounded memory/jobs, abuse/cost controls, and redacted monitoring. No database, accounts, durable job queue, or saved history is planned.
+- Review provider data handling separately; this app's no-storage design does not guarantee provider zero retention.
 
-- The supplied environment file is now accessible and contains an OPENAI_API_KEY assignment; the application has not yet been verified using it. Real therapist/evaluator responses, model access, transcription, and generated speech still need live-provider testing. There is no claim that fake-provider tests validate model quality.
-- Physical microphone permissions, capture quality, interruption behavior, and playback require real-device testing. The UI and endpoint paths are implemented; no user's microphone was activated during development.
-- The official M-CHAT-R Follow-Up instrument is not implemented. Moderate initial scores clearly show Follow-Up pending; an AI clarification is not substituted for that instrument.
-- Live guide responses appear after structured output validation. Session/report state streams over SSE; partial model JSON is not displayed.
-- Simulation deliberately uses stored fictional caregiver observations and an offline report template. It does not invent AI clinical analysis.
-- This is a local research pilot, not a public or clinically validated service. Qualified review of interpretations/recommendations, instrument permissions, production authentication/operations, and hosting review remain necessary before that use.
-
-See ../README.md for startup and secure API configuration instructions.
+Earlier local pilot databases are not used by this version and have not been automatically deleted. Research fixtures remain available for tests only. The application is not yet public-release ready.

@@ -1,6 +1,7 @@
 """Local-pilot API. Run one worker behind the authenticated Next.js gateway."""
 import asyncio, copy, hashlib, json, os, secrets, time, uuid
 from collections import defaultdict, deque
+from contextlib import asynccontextmanager, suppress
 from datetime import datetime, timezone
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, Request
@@ -14,12 +15,26 @@ def now():return datetime.now(timezone.utc).isoformat()
 def uid():return str(uuid.uuid4())
 
 def create_app(data_dir=None, provider=None, gateway_secret=None):
- store=Store(data_dir or os.getenv('ASDWISE_DATA_DIR','/private/tmp/asdwise-haven-data'))
+ store=Store()
  store.expire();store.recover()
  provider=provider or Provider()
  secret=gateway_secret or os.getenv('ASDWISE_GATEWAY_SECRET')
  if not secret:raise RuntimeError('Start with the launcher; a private gateway secret is required.')
- app=FastAPI(docs_url=None,redoc_url=None,openapi_url=None)
+ @asynccontextmanager
+ async def lifespan(app):
+  async def cleanup():
+   while True:
+    await asyncio.sleep(30)
+    store.expire()
+  cleanup_task=asyncio.create_task(cleanup())
+  try:yield
+  finally:
+   cleanup_task.cancel()
+   for task in jobs:task.cancel()
+   with suppress(asyncio.CancelledError):await cleanup_task
+   if jobs:await asyncio.gather(*jobs,return_exceptions=True)
+   store.clear()
+ app=FastAPI(docs_url=None,redoc_url=None,openapi_url=None,lifespan=lifespan)
  locks=defaultdict(asyncio.Lock);limits=defaultdict(deque);jobs=set()
  app.state.store=store
  @app.middleware('http')
@@ -37,7 +52,7 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
   result=await call_next(request);result.headers['Cache-Control']='no-store';return result
  def get(sid,request):
   s=store.get(sid,request.state.owner)
-  if not s:raise HTTPException(404,'Session not found')
+  if not s or s.get('mode')!='interactive':raise HTTPException(404,'Session not found')
   return s
  def public(s):
   return {k:v for k,v in s.items() if k not in ('owner','requests','reports') } | {'score':score(s['answers']),'reports':[{'id':r['id'],'created':r['created'],'revision':r['revision'],'stale':r['revision']!=s['revision']} for r in s['reports']]}
@@ -55,20 +70,17 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
  def active(s):
   if s['status']!='running':raise HTTPException(409,'Resume the interview before responding.')
  @app.get('/health')
- async def health():return {'live_available':provider.enabled,'audio_available':provider.enabled,'storage':'encrypted local pilot; seven-day retention','reference_available':reports.REFERENCE_PATH.exists()}
- @app.get('/sessions')
- async def listing(request:Request):
-  store.expire();return [{'id':s['id'],'child':s['child'],'status':s['status'],'mode':s['mode'],'revision':s['revision']} for s in store.list(request.state.owner)]
+ async def health():return {'live_available':provider.enabled,'audio_available':provider.enabled,'storage':'temporary memory only; expires after 30 minutes without updates','reference_available':reports.REFERENCE_PATH.exists()}
  @app.post('/sessions')
  async def create(body:SessionInput,request:Request):
   if not body.consent:raise HTTPException(422,'Please review and accept the data notice.')
-  if body.mode=='interactive' and not provider.enabled:raise HTTPException(503,'Server-side API key is not configured. A synthetic demo is available.')
+  if body.mode=='interactive' and not provider.enabled:raise HTTPException(503,'Conversations are temporarily unavailable. Please try again later.')
+  store.expire()
+  if len(store.sessions)>=100:raise HTTPException(503,'The service is busy. Please try again shortly.')
   if len(store.list(request.state.owner))>=20:raise HTTPException(409,'Delete an old session before creating another.')
   child={'name':body.name.strip(),'age':body.age,'relationship':body.relationship.strip()}
-  if not child['name']:raise HTTPException(422,'Enter a name.')
-  if body.mode=='simulation':
-   profile=json.loads((ROOT/'profiles'/f'{body.profile}.json').read_text());child={'name':profile['child_info']['name'],'age':profile['child_info']['age_months'],'relationship':'synthetic caregiver'}
-  s={'id':uid(),'owner':request.state.owner,'child':child,'mode':body.mode,'profile':body.profile,'created':now(),'revision':0,'status':'running','index':0,'answers':{},'turns':[],'pending':None,'context':{'onset':'','impact':'','routines':'','interests':''},'requests':[],'reports':[],'report_status':'idle','report_error':None}
+  if not child['name'] or not child['relationship']:raise HTTPException(422,'Enter a name and caregiver relationship.')
+  s={'id':uid(),'owner':request.state.owner,'child':child,'mode':body.mode,'consent':{'version':'2026-09-16','accepted_at':now()},'created':now(),'revision':0,'status':'running','index':0,'answers':{},'turns':[],'pending':None,'context':{'onset':'','impact':'','routines':'','interests':''},'requests':[],'reports':[],'report_status':'idle','report_error':None}
   turn(s,'guide','Welcome. I’m the ASDWise AI screening guide. We’ll review one question at a time. You can pause whenever you need.');ask(s);store.put(s);return public(s)
  @app.get('/sessions/{sid}')
  async def read(sid:str,request:Request):return public(get(sid,request))
@@ -84,10 +96,8 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
    active(s)
    if len(s['turns'])>180:raise HTTPException(422,'Conversation limit reached. Review your responses.')
    if not body.text.strip():raise HTTPException(422,'Enter a response.')
-   if s['mode']=='simulation':reply={'response':'Demo response recorded. Please confirm how this answers the question.','suggested_answer':'unknown'}
-   else:
-    try:reply=await provider.guide(s,body.text)
-    except Exception:raise HTTPException(502,'The guide could not respond. Your answer has not advanced; please retry.')
+   try:reply=await provider.guide(s,body.text)
+   except Exception:raise HTTPException(502,'The guide could not respond. Your answer has not advanced; please retry.')
    t=turn(s,'caregiver',body.text.strip(),s['current_question']['id'],modality=body.modality,original_transcript=body.original_transcript)
    turn(s,'guide',reply['response'],s['current_question']['id'])
    s['pending']={'turn_id':t['id'],'suggested':reply['suggested_answer']}
@@ -120,15 +130,6 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
     if s['status'] in ('paused','stopped'):s['status']='running'
    elif body.action=='reset':
     s.update(index=0,status='running',answers={},turns=[],pending=None,context={'onset':'','impact':'','routines':'','interests':''});ask(s)
-   elif body.action=='step':
-    if s['mode']!='simulation':raise HTTPException(403,'Synthetic simulation only')
-    active(s)
-    profile=json.loads((ROOT/'profiles'/f"{s['profile']}.json").read_text())
-    q=s['current_question']['id'];behavior=next(v for k,v in profile['behaviors'].items() if k.startswith(str(q)+'_'))
-    t=turn(s,'caregiver',behavior['detail'],q,modality='synthetic')
-    s['answers'][str(q)]={'value':behavior['response'],'turn_id':t['id'],'confirmed':True};s['pending']=None
-    if q==20:s['status']='complete';turn(s,'guide','The synthetic interview is complete. You can review its responses and generate a demonstration report.')
-    else:s['index']+=1;ask(s)
    return save(s,body)
  @app.patch('/sessions/{sid}/context')
  async def context(sid:str,body:ContextInput,request:Request):
@@ -145,9 +146,9 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
  async def generate(snapshot,owner,rid):
   try:
    ref=reports.reference()
-   analysis=reports.demo_analysis(snapshot,ref) if snapshot['mode']=='simulation' else await provider.evaluate(snapshot,ref)
+   analysis=await provider.evaluate(snapshot,ref)
    analysis=reports.validate_analysis(analysis,snapshot,ref)
-   report=reports.assemble(snapshot,analysis,ref,'offline synthetic template' if snapshot['mode']=='simulation' else provider.evaluator_model)
+   report=reports.assemble(snapshot,analysis,ref,provider.evaluator_model)
    report.update(id=rid,created=now())
    async with locks[snapshot['id']]:
     current=store.get(snapshot['id'],owner)

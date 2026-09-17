@@ -15,7 +15,9 @@ def reference():
  return r
 
 def validate_analysis(analysis,session,ref):
- if [c['code'] for c in analysis['criteria']]!=list(CRITERIA):raise ValueError('Missing or duplicate criterion')
+ codes=[c['code'] for c in analysis['criteria']]
+ if len(codes)!=len(CRITERIA) or set(codes)!=set(CRITERIA):raise ValueError('Missing or duplicate criterion')
+ analysis['criteria']=sorted(analysis['criteria'],key=lambda c:list(CRITERIA).index(c['code']))
  turns={t['id']:t for t in session['turns'] if t['role']=='caregiver'}
  pages={p['page'] for p in ref['pages']}
  used={}
@@ -41,17 +43,6 @@ def validate_analysis(analysis,session,ref):
   raise ValueError('Diagnostic conclusion is not permitted in a screening report')
  return analysis
 
-def demo_analysis(session,ref):
- # Offline mode intentionally avoids invented clinical judgments.
- criteria=[]
- for code,(title,pages) in CRITERIA.items():
-  related={q['id'] for q in QUESTIONS if code in q['dsm5_mapping']} if code not in ('B2','B3') else set()
-  turns=[t for t in session['turns'] if t['role']=='caregiver' and t.get('question_id') in related][:2]
-  criteria.append({'code':code,'title':title,'status':'insufficient evidence','interpretation':'This offline demonstration displays relevant recorded observations without making an AI clinical interpretation. A source-grounded evaluation requires a configured provider and review.',
-    'evidence':[{'turn_id':t['id'],'question_id':t.get('question_id'),'quote':t['text'],'interpretation':'Recorded caregiver observation; not sufficient by itself to establish a diagnostic criterion.'} for t in turns],
-    'source_pages':pages,'missing_context':'Frequency, multiple settings, developmental context, and impact require review.'})
- return {'criteria':criteria,'summary':'Synthetic demonstration only. The initial score summarizes the selected profile; criterion-level clinical conclusions have not been generated.', 'strengths':[], 'limitations':['Offline template; no AI clinical analysis performed.','The screening does not establish diagnosis or severity.']}
-
 def assemble(session,analysis,ref,model):
  return {'session_id':session['id'],'child':session['child'],'mode':session['mode'],'revision':session['revision'],'score':score(session['answers']),
  'analysis':analysis,'context':session['context'],'model':model,'prompt_version':'haven-evaluator-1','instrument':'Project M-CHAT-R question set v2.0; initial screening only',
@@ -68,7 +59,7 @@ def pdf(report):
  styles.add(ParagraphStyle(name='SmallHaven',parent=styles['Haven'],fontSize=8,leading=11))
  def p(t,style='Haven'):return Paragraph(escape(str(t)).replace('\n','<br/>'),styles[style])
  out=BytesIO();doc=SimpleDocTemplate(out,pagesize=(595,842),rightMargin=42,leftMargin=42,topMargin=42,bottomMargin=45,title='ASDWise screening report',author='ASDWise')
- story=[p('ASDwise | Screening report','Title'),p(report['child']['name']+' · '+str(report['child']['age'])+' months'),p(report['created']+' · '+('SYNTHETIC DEMONSTRATION' if report['mode']=='simulation' else 'Caregiver interview')),p('Report '+report['id'][:8]+' · input revision '+str(report['revision']),'SmallHaven')]
+ story=[p('ASDwise | Screening report','Title'),p(report['child']['name']+' · '+str(report['child']['age'])+' months'),p(report['created']+' · '+'Caregiver interview'),p('Report '+report['id'][:8]+' · input revision '+str(report['revision']),'SmallHaven')]
  def heading(t):story.extend([Spacer(1,12),p(t,'Heading2')])
  heading('Initial screening summary')
  s=report['score'];story.extend([p(f"{s['total'] if s['total'] is not None else 'Incomplete'} / 20 · {s['band']}"),p('Formal Follow-Up: '+s['followup']),p(s['recommendation'])])

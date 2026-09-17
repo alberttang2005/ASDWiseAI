@@ -3,8 +3,19 @@ import copy, json, tempfile, time, unittest, uuid
 from pathlib import Path
 from fastapi.testclient import TestClient
 from web.api import create_app
-from web.domain import QUESTIONS, SCORER, score
+from web.domain import QUESTIONS, SCORER, score, CRITERIA
 from web import reports
+
+def demo_analysis(session,ref):
+ # Offline mode intentionally avoids invented clinical judgments.
+ criteria=[]
+ for code,(title,pages) in CRITERIA.items():
+  related={q['id'] for q in QUESTIONS if code in q['dsm5_mapping']} if code not in ('B2','B3') else set()
+  turns=[t for t in session['turns'] if t['role']=='caregiver' and t.get('question_id') in related][:2]
+  criteria.append({'code':code,'title':title,'status':'insufficient evidence','interpretation':'This offline demonstration displays relevant recorded observations without making an AI clinical interpretation. A source-grounded evaluation requires a configured provider and review.',
+    'evidence':[{'turn_id':t['id'],'question_id':t.get('question_id'),'quote':t['text'],'interpretation':'Recorded caregiver observation; not sufficient by itself to establish a diagnostic criterion.'} for t in turns],
+    'source_pages':pages,'missing_context':'Frequency, multiple settings, developmental context, and impact require review.'})
+ return {'criteria':criteria,'summary':'Synthetic demonstration only. The initial score summarizes the selected profile; criterion-level clinical conclusions have not been generated.', 'strengths':[], 'limitations':['Offline template; no AI clinical analysis performed.','The screening does not establish diagnosis or severity.']}
 
 class FakeProvider:
  enabled=True
@@ -13,7 +24,7 @@ class FakeProvider:
  async def guide(self,s,text):
   if self.fail:raise RuntimeError('provider unavailable')
   return {'response':'Could you tell me what happens most often?','suggested_answer':'unknown'}
- async def evaluate(self,s,ref):return reports.demo_analysis(s,ref)
+ async def evaluate(self,s,ref):return demo_analysis(s,ref)
  async def transcribe(self,b,m):return 'A synthetic transcription to review.'
  async def speech(self,t):return b'ID3-test-only'
 
@@ -40,14 +51,31 @@ class APITests(unittest.TestCase):
   self.headers={'x-gateway-secret':'test-secret','x-owner':str(uuid.uuid4())}
  def tearDown(self):self.client.__exit__(None,None,None);self.tmp.cleanup()
  def request(self,method,path,**kw):return self.client.request(method,path,headers=self.headers,**kw)
- def create(self,mode='simulation',profile='moderate_likelihood'):
-  r=self.request('POST','/sessions',json={'name':'Test child','age':24,'relationship':'Parent','mode':mode,'profile':profile,'consent':True});self.assertEqual(r.status_code,200,r.text);return r.json()
+ def create(self,mode='interactive',profile='moderate_likelihood'):
+  self.profile=profile
+  r=self.request('POST','/sessions',json={'name':'Liam','age':24,'relationship':'Parent','mode':mode,'consent':True});self.assertEqual(r.status_code,200,r.text);return r.json()
  def mutate(self,s,path,body=None,method='POST'):
   return self.request(method,f"/sessions/{s['id']}"+path,json={'revision':s['revision'],'request_id':str(uuid.uuid4()),**(body or {})})
+ def step(self,s):
+  profile=json.loads((Path(__file__).resolve().parents[1]/'src/profiles'/f'{self.profile}.json').read_text())
+  q=s['current_question']['id'];behavior=next(v for k,v in profile['behaviors'].items() if k.startswith(str(q)+'_'))
+  r=self.mutate(s,'/turns',{'text':behavior['detail']});self.assertEqual(r.status_code,200,r.text)
+  r=self.mutate(r.json(),f'/answers/{q}',{'value':behavior['response']},'PATCH');self.assertEqual(r.status_code,200,r.text)
+  return r.json()
  def complete(self,s):
-  for _ in range(20):
-   r=self.mutate(s,'/control',{'action':'step'});self.assertEqual(r.status_code,200,r.text);s=r.json()
+  for _ in range(20):s=self.step(s)
   return s
+ def test_demo_rejected_and_unavailable_no_fallback(self):
+  body={'name':'Test','age':24,'relationship':'Parent','consent':True}
+  self.assertEqual(self.request('POST','/sessions',json={**body,'mode':'simulation'}).status_code,422)
+  s=self.create()
+  self.assertEqual(self.mutate(s,'/control',{'action':'step'}).status_code,422)
+  self.provider.enabled=False
+  self.assertEqual(self.request('POST','/sessions',json=body).status_code,503)
+ def test_age_and_blank_context_validation(self):
+  for extra in [{'age':15},{'age':31},{'name':' '},{'relationship':' '}]:
+   body={'name':'Test','age':24,'relationship':'Parent','consent':True,**extra}
+   self.assertEqual(self.request('POST','/sessions',json=body).status_code,422)
  def generate(self,s):
   r=self.mutate(s,'/reports');self.assertEqual(r.status_code,200,r.text)
   for _ in range(100):
@@ -80,16 +108,14 @@ class APITests(unittest.TestCase):
   self.assertEqual(s['current_question']['id'],2)
  def test_q20_requires_response(self):
   s=self.create()
-  for _ in range(19):s=self.mutate(s,'/control',{'action':'step'}).json()
+  for _ in range(19):s=self.step(s)
   self.assertEqual(s['current_question']['id'],20)
   self.assertEqual(s['status'],'running')
   self.assertEqual(self.mutate(s,'/reports').status_code,409)
- def test_report_failure_and_restart_recovery(self):
-  s=self.complete(self.create())
-  s['owner']=self.headers['x-owner'];s['requests']=[];s['reports']=[];s['report_status']='generating'
-  self.app.state.store.put(s)
-  self.app.state.store.recover()
-  self.assertEqual(self.request('GET','/sessions/'+s['id']).json()['report_status'],'failed')
+ def test_restart_does_not_recover_data(self):
+  from web.store import Store
+  s=self.create()
+  self.assertIsNone(Store().get(s['id'],self.headers['x-owner']))
  def test_failed_provider_does_not_advance(self):
   s=self.create('interactive');self.provider.fail=True
   self.assertEqual(self.mutate(s,'/turns',{'text':'A test response'}).status_code,502)
@@ -100,7 +126,7 @@ class APITests(unittest.TestCase):
   s,r=self.generate(s);self.assertEqual(len(r['analysis']['criteria']),7)
   path=f"/sessions/{s['id']}/reports/{r['id']}/pdf";pdf=self.request('GET',path)
   self.assertEqual(pdf.status_code,200,pdf.text if pdf.status_code!=200 else '');self.assertTrue(pdf.content.startswith(b'%PDF'))
-  Path('/private/tmp/asdwise-plan/haven-demo-report.pdf').write_bytes(pdf.content)
+
   s=self.mutate(s,'/answers/1',{'value':'unknown'},'PATCH').json();self.assertIsNone(s['score']['total']);self.assertEqual(self.request('GET',path).status_code,409)
   s,r=self.generate(s);self.assertEqual(r['score']['band'],'INCOMPLETE')
   self.request('DELETE','/sessions/'+s['id']);self.assertEqual(self.request('GET','/sessions/'+s['id']).status_code,404)
@@ -115,19 +141,29 @@ class APITests(unittest.TestCase):
   s=self.mutate(s,'/context',{'onset':'At 22 months'},'PATCH').json()
   self.assertTrue(any(t['role']=='superseded' for t in s['turns']))
  def test_reference_and_quote_validation(self):
-  s=self.complete(self.create());ref=reports.reference();a=reports.demo_analysis(s,ref)
+  s=self.complete(self.create());ref=reports.reference();a=demo_analysis(s,ref)
   a['criteria'][0]['evidence'][0]['quote']='Invented caregiver quote'
   with self.assertRaises(ValueError):reports.validate_analysis(a,s,ref)
-  a=reports.demo_analysis(s,ref);a['criteria'][0]['source_pages']=[999]
+  a=demo_analysis(s,ref);a['criteria'][0]['source_pages']=[999]
   with self.assertRaises(ValueError):reports.validate_analysis(a,s,ref)
-  a=reports.demo_analysis(s,ref);a['criteria'][0]['status']='reported concern';a['criteria'][1]['status']='reported concern';a['criteria'][1]['evidence']=[a['criteria'][0]['evidence'][0]]
+  a=demo_analysis(s,ref);a['criteria'][0]['status']='reported concern';a['criteria'][1]['status']='reported concern';a['criteria'][1]['evidence']=[a['criteria'][0]['evidence'][0]]
   with self.assertRaises(ValueError):reports.validate_analysis(a,s,ref)
- def test_database_encryption_and_reload(self):
-  s=self.create();raw=(Path(self.tmp.name)/'sessions.sqlite3').read_bytes();self.assertNotIn(b'Liam',raw)
+ def test_criterion_order_and_missing_criteria(self):
+  s=self.complete(self.create());ref=reports.reference();a=demo_analysis(s,ref)
+  a['criteria'].reverse()
+  self.assertEqual([c['code'] for c in reports.validate_analysis(a,s,ref)['criteria']],list(CRITERIA))
+  a['criteria'].pop()
+  with self.assertRaises(ValueError):reports.validate_analysis(a,s,ref)
+ def test_memory_storage_expiry_and_no_disk_files(self):
   from web.store import Store
-  reopened=Store(self.tmp.name);self.assertEqual(reopened.get(s['id'],self.headers['x-owner'])['child']['name'],'Liam')
+  from unittest.mock import patch
+  s=self.create()
+  self.assertEqual(list(Path(self.tmp.name).iterdir()),[])
+  with patch('web.store.time.monotonic',return_value=time.monotonic()+1801):
+   self.assertIsNone(self.app.state.store.get(s['id'],self.headers['x-owner']))
  def test_three_profiles(self):
   for p in ['low_likelihood','moderate_likelihood','high_likelihood']:
+   self.headers['x-owner']=str(uuid.uuid4())
    s=self.complete(self.create(profile=p));self.assertEqual(s['score']['band'],{'low_likelihood':'LOW','moderate_likelihood':'MODERATE','high_likelihood':'HIGH'}[p])
 
 if __name__=='__main__':unittest.main()

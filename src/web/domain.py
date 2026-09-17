@@ -26,8 +26,7 @@ class SessionInput(StrictModel):
  name: str = Field(min_length=1, max_length=80)
  age: int = Field(ge=16, le=30)
  relationship: str = Field(min_length=1,max_length=60)
- mode: Literal['interactive','simulation'] = 'interactive'
- profile: Literal['low_likelihood','moderate_likelihood','high_likelihood'] = 'moderate_likelihood'
+ mode: Literal['interactive'] = 'interactive'
  consent: bool = False
 
 class Mutation(StrictModel):
@@ -43,7 +42,7 @@ class AnswerInput(Mutation):
  value: Literal['yes','no','unknown']
 
 class ControlInput(Mutation):
- action: Literal['pause','resume','stop','reset','step']
+ action: Literal['pause','resume','stop','reset']
 
 class ContextInput(Mutation):
  onset: str = Field(default='',max_length=2000)
@@ -69,7 +68,7 @@ class CriterionAnalysis(StrictModel):
  missing_context: str
 
 class Analysis(StrictModel):
- criteria: list[CriterionAnalysis]
+ criteria: list[CriterionAnalysis] = Field(min_length=7, max_length=7)
  summary: str
  strengths: list[str]
  limitations: list[str]
