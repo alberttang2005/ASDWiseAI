@@ -1,0 +1,313 @@
+{
+  "fictional": true,
+  "method": "Fictional UX walkthrough: six live narrative interactions and fourteen confirmed quick answers per persona; live evaluator; no human participants.",
+  "results": [
+    {
+      "fictional": true,
+      "persona": "daycare",
+      "relationship": "Daycare educator",
+      "checks": {
+        "completed_20": true,
+        "pause_resume": true,
+        "uncertainty_preserved": true,
+        "report_ready": true,
+        "pdf_download": true,
+        "cleared": true
+      },
+      "events": [
+        {
+          "type": "guide",
+          "question": 1,
+          "seconds": 14.79,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. Usually yes, but sometimes he seems more interested in my hand than where I'm pointing. It's inconsistent.",
+          "response": "Thanks for the update. In daycare, the child usually looks when pointed but not consistently, and you can\u2019t confirm home behavior. One quick clarification: should I treat this as daycare-only information and mark the current finding as inconclusive?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 3,
+          "seconds": 10.43,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. Not really. He likes pushing his cars around but doesn't really pretend with them. He mostly lines them up or spins the wheels.",
+          "response": "Thanks for the update. I hear that pretend play isn\u2019t evident in daycare, with pushing cars and lining/spinning but not imaginative scenarios. We can\u2019t confirm home behavior from daycare alone. One quick clarification: should I treat this as daycare-only information and mark the current finding as inconclusive, or would you like me to suggest how to gather a home perspective?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 8,
+          "seconds": 8.12,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. He watches other kids at the park, though he doesn't really try to play with them much. He seems interested from a distance.",
+          "response": "Thanks for the update. It sounds like Casey watches other children at the park and in daycare but doesn\u2019t actively join in yet. This observation is limited to those settings and doesn\u2019t confirm his home behavior; the information remains inconclusive.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 10,
+          "seconds": 15.68,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. Usually, yes. Sometimes it takes a couple of calls, but he does respond.",
+          "response": "Thanks for the update. From your daycare observations, Casey usually responds when his name is called, though it sometimes takes a couple of calls. This observation is limited to the daycare setting and may not reflect home behavior.",
+          "suggested_answer": "yes"
+        },
+        {
+          "type": "guide",
+          "question": 12,
+          "seconds": 8.45,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. Actually yes - he really doesn't like the vacuum cleaner or the blender. He covers his ears and gets upset.",
+          "response": "Thanks for the update. It sounds like Casey is upset by noises like the vacuum and blender. Is this distress observed consistently at daycare as part of his routine, or have you also seen it at home?",
+          "suggested_answer": "yes"
+        },
+        {
+          "type": "guide",
+          "question": 19,
+          "seconds": 8.67,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. I have not seen enough unfamiliar situations to answer this reliably.",
+          "response": "Thanks for clarifying your setting and noting that you haven't observed enough unfamiliar situations to answer reliably. Since this is uncertain, would you like a brief, neutral checklist of what to watch for in future unfamiliar situations to help you document observations?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "evaluate",
+          "seconds": 256.98
+        }
+      ],
+      "seconds": 325.4,
+      "initial_screen": {
+        "total": null,
+        "band": "INCOMPLETE",
+        "missing": [
+          2,
+          19,
+          20
+        ],
+        "followup": "awaiting complete responses"
+      },
+      "report_review": {
+        "summary": "Overall, daycare observations provide mixed evidence across the ASD DSM-5 exemplar criteria. A1 and A2 show insufficient cross-context evidence; A3 shows peer-interaction concerns in daycare; B1 and B4 show clear behavioral and sensory patterns in the daycare setting; B2 shows distress with transitions. B3 lacks clear, cross-context evidence of highly restricted interests. Home context is limited or unknown for many items, limiting broader conclusions. The referenced Carpenter (2013) exemplars were consulted for criterion framing, but this dataset remains a pre-publication exemplar set and not a definitive diagnostic tool.",
+        "strengths": [
+          "Observes responsive behavior to name in daycare (indication of social responsiveness)",
+          "Eye contact and social smiling observed in daycare contexts (positive social responsiveness indicators)",
+          "Child demonstrates imitation abilities (question 15; observed in daycare context) - supports some preserved social learning skills."
+        ],
+        "limitations": [
+          "Observations are restricted to daycare contexts for most items; home environment data are incomplete or unknown",
+          "Some caregiver reports are unknown or inconclusive (e.g., Q2, Q19, Q20) limiting cross-context conclusions",
+          "B3 evidence is not clearly demonstrated in available data; home-context data would be needed to assess fixated interests across contexts",
+          "The source material is pre-publication DSM-5 exemplars and not a current diagnostic standard; require clinical assessment for diagnostic conclusions"
+        ],
+        "criterion_statuses": [
+          {
+            "code": "A1",
+            "status": "insufficient evidence"
+          },
+          {
+            "code": "A2",
+            "status": "insufficient evidence"
+          },
+          {
+            "code": "A3",
+            "status": "reported concern"
+          },
+          {
+            "code": "B1",
+            "status": "reported concern"
+          },
+          {
+            "code": "B2",
+            "status": "reported concern"
+          },
+          {
+            "code": "B3",
+            "status": "insufficient evidence"
+          },
+          {
+            "code": "B4",
+            "status": "reported concern"
+          }
+        ]
+      }
+    },
+    {
+      "fictional": true,
+      "persona": "mom",
+      "relationship": "Mother",
+      "checks": {
+        "completed_20": true,
+        "pause_resume": true,
+        "report_ready": true,
+        "pdf_download": true,
+        "cleared": true
+      },
+      "events": [
+        {
+          "type": "guide",
+          "question": 1,
+          "seconds": 14.11,
+          "input": "I am the mother and care for my child most days at home. He usually looks at my hand or finger instead of where I'm pointing. It's like he doesn't understand what pointing means.",
+          "response": "Thanks for sharing that. I hear your child often looks at your hand or finger rather than the object when you point.",
+          "suggested_answer": "no"
+        },
+        {
+          "type": "guide",
+          "question": 3,
+          "seconds": 13.05,
+          "input": "I am the mother and care for my child most days at home. No, not really. He likes lining up his cars in rows and spinning their wheels, but he doesn't pretend to drive them or make car sounds.",
+          "response": "Thanks for sharing. I hear Jordan doesn\u2019t engage in pretend or make-believe; he tends to line up cars and spin wheels. That helps describe his current play pattern.",
+          "suggested_answer": "no"
+        },
+        {
+          "type": "guide",
+          "question": 8,
+          "seconds": 9.93,
+          "input": "I am the mother and care for my child most days at home. Not really. At the playground, he ignores other children. He's more interested in the fence or the sandbox than the other kids.",
+          "response": "Thanks for the update. It sounds like Jordan isn\u2019t showing interest in other children and is more engaged with the environment (fence or sandbox). Please confirm that this can be recorded as 'no' for this item.",
+          "suggested_answer": "no"
+        },
+        {
+          "type": "guide",
+          "question": 10,
+          "seconds": 18.4,
+          "input": "I am the mother and care for my child most days at home. Rarely. We have to call his name many times or go to him physically. Sometimes we wonder if he even knows his name.",
+          "response": "Thanks for sharing. It sounds like Jordan rarely responds when you call his name, and you often need to call his name many times or go to him. There\u2019s ongoing uncertainty about whether he recognizes his name in everyday moments.",
+          "suggested_answer": "no"
+        },
+        {
+          "type": "guide",
+          "question": 12,
+          "seconds": 7.68,
+          "input": "I am the mother and care for my child most days at home. Yes, definitely. He covers his ears and screams when the vacuum is on, or if there's a loud unexpected noise.",
+          "response": "Thanks for sharing. It sounds like Jordan shows noise sensitivity\u2014covering ears and screaming with a vacuum or loud noises. Please confirm that this summary is accurate.",
+          "suggested_answer": "yes"
+        },
+        {
+          "type": "guide",
+          "question": 19,
+          "seconds": 13.84,
+          "input": "I am the mother and care for my child most days at home. No, he doesn't look to us when something new happens. He just reacts on his own or ignores it.",
+          "response": "Thanks for the update. It sounds like your child doesn\u2019t look to you for cues when something new happens and tends to react on his own.",
+          "suggested_answer": "no"
+        },
+        {
+          "type": "evaluate",
+          "seconds": 179.99
+        }
+      ],
+      "seconds": 258.0,
+      "initial_screen": {
+        "total": 19,
+        "band": "HIGH",
+        "missing": [],
+        "followup": "not required before referral"
+      },
+      "report_review": {
+        "summary": "Seven DSM-5 ASD-exemplar criteria are represented in caregiver reports. A1 and A2 show deficits in social reciprocity and nonverbal communication (evidence: lack of social smile and eye contact, not showing objects, and absence of imitation). A3 indicates reduced social engagement with peers. B1 shows repetitive, nonfunctional play (lining up cars); B2 shows rigidity with routine changes; B3 shows a narrow, intense interest (spinning wheels); B4 shows sensory reactivity (noise sensitivity). Onset patterns noted by caregiver (patterns observed around 18 months) and reported functional impact at home (e.g., routine-related distress). This is screening data, not a clinical diagnosis; clinical assessment is required for formal ASD determination. Strengths and limitations pertain to the data source (caregiver report, pre-publication exemplars) and context provided.",
+        "strengths": [
+          "Demonstrates motor development milestone (walking) present (Q13)."
+        ],
+        "limitations": [
+          "Single-informant data; potential reporting bias; preliminary DSM-5 exemplar material (pre-publication) may not reflect current practice; not all domains observed across contexts. Statements include onset/impact context which may influence interpretation."
+        ],
+        "criterion_statuses": [
+          {
+            "code": "A1",
+            "status": "reported concern"
+          },
+          {
+            "code": "A2",
+            "status": "reported concern"
+          },
+          {
+            "code": "A3",
+            "status": "reported concern"
+          },
+          {
+            "code": "B1",
+            "status": "reported concern"
+          },
+          {
+            "code": "B2",
+            "status": "reported concern"
+          },
+          {
+            "code": "B3",
+            "status": "reported concern"
+          },
+          {
+            "code": "B4",
+            "status": "reported concern"
+          }
+        ]
+      }
+    },
+    {
+      "fictional": true,
+      "persona": "dad",
+      "relationship": "Father",
+      "checks": {
+        "completed_20": true,
+        "pause_resume": true,
+        "report_ready": false,
+        "cleared": true
+      },
+      "events": [
+        {
+          "type": "guide",
+          "question": 1,
+          "seconds": 10.48,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. She always looks where I point. If I point at a bird outside, she gets excited and looks right at it.",
+          "response": "Thanks for sharing. It sounds like your child consistently looks where you point (e.g., at a bird outside). Please confirm: is 'yes' the best summary of your observation?",
+          "suggested_answer": "yes"
+        },
+        {
+          "type": "guide",
+          "question": 3,
+          "seconds": 10.4,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. Oh yes! She loves pretending to feed her baby doll and has tea parties with her stuffed animals.",
+          "response": "Thanks for sharing. It sounds like Riley engages in pretend play, such as feeding a baby doll and having tea parties with stuffed animals.",
+          "suggested_answer": "yes"
+        },
+        {
+          "type": "guide",
+          "question": 8,
+          "seconds": 8.73,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. She loves other kids. At daycare, she's always excited to see her friends and tries to play with them.",
+          "response": "Thanks for the update. It sounds like Riley is interested in other children and enjoys interacting with peers, including at daycare.",
+          "suggested_answer": "yes"
+        },
+        {
+          "type": "guide",
+          "question": 10,
+          "seconds": 13.45,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. My child usually looks when I call during quiet play. My partner says this happens less during busy routines. Should I report what I see or what my partner sees?",
+          "response": "That\u2019s a common pattern\u2014observations can vary by setting and by observer. A practical approach is to document both perspectives with context: what you saw (quiet play) and what your partner observed (during busier routines), and when it happened. This helps give a fuller picture without deciding for one view. Clarification question: would you like a simple template to record both viewpoints clearly?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 12,
+          "seconds": 10.33,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. No, she's pretty easygoing with noises. The vacuum doesn't bother her at all.",
+          "response": "Thanks for the update. Based on your evenings and weekend observations, Riley doesn\u2019t seem upset by everyday noises\u2014vacuum sounds don\u2019t bother her.",
+          "suggested_answer": "no"
+        },
+        {
+          "type": "guide",
+          "question": 19,
+          "seconds": 9.29,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. Yes, when something new happens, she looks at me like she's checking if it's okay.",
+          "response": "Thanks for the update. I noticed you referred to Riley as 'she' while you are listed as the father. Could you confirm Riley's gender or preferred pronouns so I can document consistently?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "evaluate_error",
+          "error_type": "APITimeoutError"
+        }
+      ],
+      "report_error": "Report generation or evidence validation failed. No unverified report was saved. Please retry.",
+      "seconds": 338.05,
+      "initial_screen": {
+        "total": 0,
+        "band": "LOW",
+        "missing": [],
+        "followup": "not indicated by initial score"
+      }
+    }
+  ]
+}
