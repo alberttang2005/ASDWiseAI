@@ -18,7 +18,7 @@ The runner is `tests/ux/run_caregiver_perspectives.py`. Live calls are opt-in an
 
 These are deliberately different fictional children and response patterns. Score differences must not be interpreted as effects of caregiver gender or role.
 
-## Results
+## Original results (before fixes)
 
 All three completed the initial questionnaire and pause/resume checks. Two of three generated validated reports and downloadable PDFs. All three cleared their temporary state after testing.
 
@@ -74,3 +74,9 @@ Initial scores are properties of scripted fictional answers, not clinical conclu
 - A later real caregiver study should include an educator and parents with differing observation contexts, with consent and a separate research protocol. Do not interpret these simulations as endorsement by those groups.
 
 Structured fictional evidence is in `FICTIONAL_RUN_RESULTS.json`. It includes guide responses, timings, result status, and report summaries. No real caregiver data or API credentials are included.
+
+## September 18 verification after fixes
+
+All six requested UX changes are implemented. The final three live fictional runs passed every recorded check, including valid reports, PDF responses, preserved observation context and unknowns, and explicit clearing. Evaluator times were 21.61 seconds (daycare), 19.21 seconds (mother), and 23.11 seconds (father). Initial results remain incomplete, high (19), and low (0), respectively. The evaluator now defaults to GPT-5 mini with bounded reasoning, selects original evidence IDs rather than recreating quotes, and receives one bounded validation repair attempt under the report deadline.
+
+See `FIX_VERIFICATION.json` for the synthetic inputs, outputs, and checks. The final question-filter adjustment also has a regression test; the complete suite passes 27 tests. The three PDFs were rendered and visually inspected. Prior release limitations above still apply.

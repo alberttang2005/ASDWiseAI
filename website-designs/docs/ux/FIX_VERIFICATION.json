@@ -1,0 +1,1759 @@
+{
+  "method": "Fictional UX walkthrough: six live narrative interactions and fourteen confirmed quick answers per persona; live evaluator; no human participants.",
+  "results": [
+    {
+      "fictional": true,
+      "persona": "daycare",
+      "relationship": "Daycare educator",
+      "checks": {
+        "focused_guide": true,
+        "completed_20": true,
+        "pause_resume": true,
+        "uncertainty_preserved": true,
+        "report_ready": true,
+        "observation_context_preserved": true,
+        "different_observations_preserved": true,
+        "pdf_download": true,
+        "cleared": true
+      },
+      "events": [
+        {
+          "type": "guide",
+          "question": 1,
+          "seconds": 2.14,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. In my classroom, the child usually looks at a toy I point toward, though sometimes looks at my hand first.",
+          "response": "Noted: in the Weekday group classroom, your observation is that the child usually looks at the toy you point to, though sometimes looks at your hand first. If you\u2019re unsure about any aspect, you can mark Not sure for that part, but based on what you personally observe, that\u2019s your answer.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 3,
+          "seconds": 1.07,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. During classroom play, the child pushes cars and lines them up but I have not seen pretend play.",
+          "response": "Thanks for noting the setting and your observation. You\u2019ve described that in the weekday classroom, the child pushes cars and lines them up, but you haven\u2019t seen pretend play. Acknowledged.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 8,
+          "seconds": 0.85,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. During free play in our classroom, the child watches peers but rarely joins their play.",
+          "response": "Noted: in the weekday classroom during free play, Casey watches peers but rarely joins their play. Thank you for describing the setting and your observation.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 10,
+          "seconds": 0.92,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. In class, the child usually turns when I call the name, sometimes after two calls.",
+          "response": "Noted: in the weekday classroom, Casey usually turns when you call the name, sometimes after two calls. This reflects your observation in that setting.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 12,
+          "seconds": 1.08,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. In our classroom the child covers ears when the hand dryer runs and during loud music.",
+          "response": "Noted: in the weekday classroom, Casey covers ears with loud sounds like hand dryers and music. You\u2019ve described observation in this setting; if you\u2019re unsure about home, you can indicate Not sure there as well, but please keep your own observation in this setting clear.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 19,
+          "seconds": 0.0,
+          "input": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. I have not seen enough unfamiliar situations to answer this reliably.",
+          "response": "That is okay. Choose Not sure for this question when you have not had enough opportunity to observe it.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "evaluate",
+          "seconds": 21.61
+        }
+      ],
+      "score": {
+        "total": null,
+        "band": "INCOMPLETE",
+        "missing": [
+          2,
+          19,
+          20
+        ],
+        "answered": 17,
+        "followup": "awaiting complete responses",
+        "recommendation": "Review unanswered or uncertain items. A final screening classification cannot be calculated yet.",
+        "items": [
+          {
+            "id": 1,
+            "label": "Point following",
+            "text": "If you point at something across the room, does your child look at it?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 2,
+            "label": "Deaf concern",
+            "text": "Have you ever wondered if your child might be deaf?",
+            "answer": "unknown",
+            "result": "unresolved"
+          },
+          {
+            "id": 3,
+            "label": "Pretend play",
+            "text": "Does your child play pretend or make-believe?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 4,
+            "label": "Climbing",
+            "text": "Does your child like climbing on things?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 5,
+            "label": "Unusual finger movements",
+            "text": "Does your child make unusual finger movements near his or her eyes?",
+            "answer": "no",
+            "result": "low likelihood"
+          },
+          {
+            "id": 6,
+            "label": "Pointing to request",
+            "text": "Does your child point with one finger to ask for something or to get help?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 7,
+            "label": "Pointing to share interest",
+            "text": "Does your child point with one finger to show you something interesting?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 8,
+            "label": "Interest in children",
+            "text": "Is your child interested in other children?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 9,
+            "label": "Showing objects",
+            "text": "Does your child show you things by bringing them to you or holding them up for you to see?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 10,
+            "label": "Response to name",
+            "text": "Does your child respond when you call his or her name?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 11,
+            "label": "Social smile",
+            "text": "When you smile at your child, does he or she smile back at you?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 12,
+            "label": "Noise sensitivity",
+            "text": "Does your child get upset by everyday noises?",
+            "answer": "yes",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 13,
+            "label": "Walking",
+            "text": "Does your child walk?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 14,
+            "label": "Eye contact",
+            "text": "Does your child look you in the eye when you are talking to him or her, playing with him or her, or dressing him or her?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 15,
+            "label": "Imitation",
+            "text": "Does your child try to copy what you do?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 16,
+            "label": "Gaze following",
+            "text": "If you turn your head to look at something, does your child look around to see what you are looking at?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 17,
+            "label": "Attention seeking",
+            "text": "Does your child try to get you to watch him or her?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 18,
+            "label": "Language comprehension",
+            "text": "Does your child understand when you tell him or her to do something?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 19,
+            "label": "Social referencing",
+            "text": "If something new happens, does your child look at your face to see how you feel about it?",
+            "answer": "unknown",
+            "result": "unresolved"
+          },
+          {
+            "id": 20,
+            "label": "Movement activities",
+            "text": "Does your child like movement activities?",
+            "answer": "unknown",
+            "result": "unresolved"
+          }
+        ]
+      },
+      "report": {
+        "session_id": "0426834b-a11e-4a7c-a647-809c5289675e",
+        "child": {
+          "name": "Fictional Casey",
+          "age": 24,
+          "relationship": "Daycare educator"
+        },
+        "mode": "interactive",
+        "revision": 29,
+        "score": {
+          "total": null,
+          "band": "INCOMPLETE",
+          "missing": [
+            2,
+            19,
+            20
+          ],
+          "answered": 17,
+          "followup": "awaiting complete responses",
+          "recommendation": "Review unanswered or uncertain items. A final screening classification cannot be calculated yet.",
+          "items": [
+            {
+              "id": 1,
+              "label": "Point following",
+              "text": "If you point at something across the room, does your child look at it?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 2,
+              "label": "Deaf concern",
+              "text": "Have you ever wondered if your child might be deaf?",
+              "answer": "unknown",
+              "result": "unresolved"
+            },
+            {
+              "id": 3,
+              "label": "Pretend play",
+              "text": "Does your child play pretend or make-believe?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 4,
+              "label": "Climbing",
+              "text": "Does your child like climbing on things?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 5,
+              "label": "Unusual finger movements",
+              "text": "Does your child make unusual finger movements near his or her eyes?",
+              "answer": "no",
+              "result": "low likelihood"
+            },
+            {
+              "id": 6,
+              "label": "Pointing to request",
+              "text": "Does your child point with one finger to ask for something or to get help?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 7,
+              "label": "Pointing to share interest",
+              "text": "Does your child point with one finger to show you something interesting?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 8,
+              "label": "Interest in children",
+              "text": "Is your child interested in other children?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 9,
+              "label": "Showing objects",
+              "text": "Does your child show you things by bringing them to you or holding them up for you to see?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 10,
+              "label": "Response to name",
+              "text": "Does your child respond when you call his or her name?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 11,
+              "label": "Social smile",
+              "text": "When you smile at your child, does he or she smile back at you?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 12,
+              "label": "Noise sensitivity",
+              "text": "Does your child get upset by everyday noises?",
+              "answer": "yes",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 13,
+              "label": "Walking",
+              "text": "Does your child walk?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 14,
+              "label": "Eye contact",
+              "text": "Does your child look you in the eye when you are talking to him or her, playing with him or her, or dressing him or her?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 15,
+              "label": "Imitation",
+              "text": "Does your child try to copy what you do?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 16,
+              "label": "Gaze following",
+              "text": "If you turn your head to look at something, does your child look around to see what you are looking at?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 17,
+              "label": "Attention seeking",
+              "text": "Does your child try to get you to watch him or her?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 18,
+              "label": "Language comprehension",
+              "text": "Does your child understand when you tell him or her to do something?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 19,
+              "label": "Social referencing",
+              "text": "If something new happens, does your child look at your face to see how you feel about it?",
+              "answer": "unknown",
+              "result": "unresolved"
+            },
+            {
+              "id": 20,
+              "label": "Movement activities",
+              "text": "Does your child like movement activities?",
+              "answer": "unknown",
+              "result": "unresolved"
+            }
+          ]
+        },
+        "analysis": {
+          "criteria": [
+            {
+              "code": "A1",
+              "status": "no concern reported",
+              "interpretation": "The educator reports the child responds to social bids: turns when name is called (though sometimes after two calls) and returns a social smile; these observations indicate social-emotional reciprocity in the classroom context.",
+              "evidence": [
+                {
+                  "turn_id": "345f5754-d2fb-4b5e-82b6-2100796f5440",
+                  "quote": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. In class, the child usually turns when I call the name, sometimes after two calls.",
+                  "interpretation": "\"the child usually turns when I call the name, sometimes after two calls.\"",
+                  "question_id": 10
+                },
+                {
+                  "turn_id": "49c446a6-3bb3-400d-8821-cf84cf89d73b",
+                  "quote": "yes",
+                  "interpretation": "\"yes\"",
+                  "question_id": 11
+                }
+              ],
+              "source_pages": [
+                1,
+                2
+              ],
+              "missing_context": "These observations are limited to the weekday group classroom; the educator cannot speak for the child's behavior at home or earlier development.",
+              "title": "Social-emotional reciprocity"
+            },
+            {
+              "code": "A2",
+              "status": "reported concern",
+              "interpretation": "The educator describes inconsistent nonverbal communicative behaviors: the child does not follow another's head/gaze to share attention and also sometimes looks at the adult's hand first when pointed to, suggesting difficulties coordinating gaze/gesture in some interactions in the classroom.",
+              "evidence": [
+                {
+                  "turn_id": "ed428053-ebad-42d4-a154-24887268c93b",
+                  "quote": "no",
+                  "interpretation": "\"no\"",
+                  "question_id": 16
+                }
+              ],
+              "source_pages": [
+                2
+              ],
+              "missing_context": "Evidence comes from observations in the classroom only; no information about these behaviors at home or across other settings.",
+              "title": "Nonverbal communication"
+            },
+            {
+              "code": "A3",
+              "status": "reported concern",
+              "interpretation": "The educator reports limited peer engagement: the child watches peers but rarely joins their play during free play in the classroom, indicating reduced social participation with same-age peers in that setting.",
+              "evidence": [
+                {
+                  "turn_id": "e007e1d3-7144-486e-a5c5-dca96e57661c",
+                  "quote": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. During free play in our classroom, the child watches peers but rarely joins their play.",
+                  "interpretation": "\"During free play in our classroom, the child watches peers but rarely joins their play.\"",
+                  "question_id": 8
+                }
+              ],
+              "source_pages": [
+                2,
+                3
+              ],
+              "missing_context": "Observation limited to weekday group classroom; educator cannot describe the child's peer interaction at home or in other settings.",
+              "title": "Developing and maintaining relationships"
+            },
+            {
+              "code": "B1",
+              "status": "reported concern",
+              "interpretation": "The educator has observed repetitive, nonfunctional use of objects: the child pushes cars and lines them up during classroom play, which fits examples of repetitive object play.",
+              "evidence": [
+                {
+                  "turn_id": "6dc874ff-c172-4cf1-ade7-4a7b36c8f6b1",
+                  "quote": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. During classroom play, the child pushes cars and lines them up but I have not seen pretend play.",
+                  "interpretation": "\"During classroom play, the child pushes cars and lines them up but I have not seen pretend play.\"",
+                  "question_id": 3
+                }
+              ],
+              "source_pages": [
+                3,
+                4
+              ],
+              "missing_context": "This behavior is reported from the classroom; it is not described whether it occurs across other settings or times.",
+              "title": "Repetitive movements, speech, or object use"
+            },
+            {
+              "code": "B2",
+              "status": "reported concern",
+              "interpretation": "Using the classroom routines description, the educator reports the child becomes upset by unexpected transitions (crying for several minutes) and requires a picture schedule to help, indicating difficulty with changes in routine in the daycare setting.",
+              "evidence": [
+                {
+                  "turn_id": "44ad2ee7-10d3-47e6-84b9-0c185de4afa8",
+                  "quote": "At daycare, an unexpected change from outdoor play to circle time sometimes leads to crying for several minutes. A picture schedule helps.",
+                  "interpretation": "\"At daycare, an unexpected change from outdoor play to circle time sometimes leads to crying for several minutes. A picture schedule helps.\"",
+                  "question_id": null
+                }
+              ],
+              "source_pages": [
+                4
+              ],
+              "missing_context": "This concerns transitions in the classroom; the educator cannot describe the child's responses to changes at home or in other contexts.",
+              "title": "Routines and resistance to change"
+            },
+            {
+              "code": "B3",
+              "status": "no concern reported",
+              "interpretation": "The educator describes a variety of classroom interests (cars, blocks, paint) rather than a narrowly fixated or abnormal-intensity interest, suggesting no report of highly restricted or fixated interests in the classroom.",
+              "evidence": [
+                {
+                  "turn_id": "2d470c2f-2fb2-465b-8b9b-5314c7a0e4a1",
+                  "quote": "In class, this child enjoys cars but also uses blocks and paint. I cannot describe interests at home.",
+                  "interpretation": "\"In class, this child enjoys cars but also uses blocks and paint. I cannot describe interests at home.\"",
+                  "question_id": null
+                }
+              ],
+              "source_pages": [
+                4,
+                5
+              ],
+              "missing_context": "Interests are described only for the classroom; the educator cannot describe the child's interests at home or historically.",
+              "title": "Restricted interests"
+            },
+            {
+              "code": "B4",
+              "status": "reported concern",
+              "interpretation": "The educator reports sensory hyper-reactivity to sound in the classroom: the child covers ears when the hand dryer runs and during loud music, indicating adverse reactions to specific sounds in that setting.",
+              "evidence": [
+                {
+                  "turn_id": "161f8486-cf46-4c9d-8b15-ba067ae9e5b6",
+                  "quote": "I am the daycare educator. I see this child in a group classroom on weekdays; I cannot speak for home. In our classroom the child covers ears when the hand dryer runs and during loud music.",
+                  "interpretation": "\"In our classroom the child covers ears when the hand dryer runs and during loud music.\"",
+                  "question_id": 12
+                }
+              ],
+              "source_pages": [
+                5
+              ],
+              "missing_context": "This sensory reaction is reported from the classroom; the educator cannot speak for sensory responses at home or in other environments.",
+              "title": "Sensory reactivity"
+            }
+          ],
+          "summary": "The daycare educator (seen daily for eight weeks) reports that in the classroom the child generally responds to name and returns a social smile, but shows inconsistent nonverbal coordination (does not follow gaze) and does not point to share. The child watches peers but rarely joins play, lines up cars during play, becomes upset with unexpected transitions (crying for minutes), and covers ears for loud noises. All observations are limited to the weekday classroom and the educator cannot describe behavior at home or earlier development.",
+          "strengths": [
+            "Usually turns when the educator calls the name (sometimes after two calls).",
+            "Returns a social smile.",
+            "Points to request (uses pointing to ask for something).",
+            "Walks and imitates classroom actions; participates with supports during transitions."
+          ],
+          "limitations": [
+            "All reports come from one daycare educator in the weekday group classroom over eight weeks (cannot speak for home or earlier development).",
+            "Hearing concern is unknown and some situational responses (e.g., to unfamiliar situations) were not observed.",
+            "Some answers are selections (unknown) rather than descriptive examples for certain domains."
+          ]
+        },
+        "observation_context": {
+          "setting": "Weekday group classroom",
+          "frequency": "Weekdays",
+          "familiarity": "Eight weeks"
+        },
+        "context": {
+          "onset": "I have known this child for eight weeks and cannot describe earlier development.",
+          "impact": "In our classroom, joining group play and moving between activities sometimes require individual support. I do not know how things go at home.",
+          "routines": "At daycare, an unexpected change from outdoor play to circle time sometimes leads to crying for several minutes. A picture schedule helps.",
+          "interests": "In class, this child enjoys cars but also uses blocks and paint. I cannot describe interests at home.",
+          "other_observations": ""
+        },
+        "model": "gpt-5-mini",
+        "prompt_version": "haven-evaluator-2",
+        "instrument": "Project M-CHAT-R question set v2.0; initial screening only",
+        "references": [
+          {
+            "title": "DSM-5 Autism Spectrum Disorder: Guidelines & Criteria Exemplars",
+            "author": "Laura Carpenter, PhD",
+            "date": "February 2013",
+            "status": "Pre-publication exemplars; not a complete current diagnostic standard",
+            "sha256": "4eab31ed47f0d2059dcdf8776ddcdaebe7d50d6545633a3337d693ed6b6ec637"
+          },
+          {
+            "title": "CDC: Clinical Testing and Diagnosis for ASD",
+            "url": "https://www.cdc.gov/autism/hcp/diagnosis/index.html",
+            "reviewed": "2026-09-15",
+            "summary": "Published criteria include all three A areas, at least two B areas, early developmental onset, significant functional impairment, and exclusion of better explanations. Screening does not establish these criteria."
+          },
+          {
+            "title": "Official M-CHAT-R/F scoring",
+            "url": "https://www.mchatscreen.com/mchat-rf/scoring/"
+          }
+        ],
+        "disclaimer": "This is a screening report, not a diagnosis. A positive screen does not establish autism, and a negative screen does not rule it out. Discuss observations with a qualified healthcare professional.",
+        "recommendations": {
+          "Primary recommendation": "Review unanswered or uncertain items. A final screening classification cannot be calculated yet.",
+          "Secondary recommendation": "Bring examples of everyday communication, play, routines, and sensory experiences to your care team. Discuss both strengths and concerns.",
+          "Additional resources": "The official M-CHAT-R/F scoring guidance and CDC clinical assessment overview are listed in References.",
+          "Follow-up plan": "Discuss the appropriate follow-up and timing with your child\u2019s healthcare professional. No appointment or referral has been scheduled by this application."
+        },
+        "id": "ab553073-40d5-47f8-8742-37cc50243fb2",
+        "created": "2026-09-18T18:50:16.418345+00:00",
+        "stale": false
+      },
+      "seconds": 30.52
+    },
+    {
+      "fictional": true,
+      "persona": "mom",
+      "relationship": "Mother",
+      "checks": {
+        "focused_guide": true,
+        "completed_20": true,
+        "pause_resume": true,
+        "report_ready": true,
+        "observation_context_preserved": true,
+        "different_observations_preserved": true,
+        "pdf_download": true,
+        "cleared": true
+      },
+      "events": [
+        {
+          "type": "guide",
+          "question": 1,
+          "seconds": 1.76,
+          "input": "I am the mother and care for my child most days at home. He usually looks at my hand or finger instead of where I'm pointing. It's like he doesn't understand what pointing means.",
+          "response": "Thanks for sharing that. Noting that you observe your child often looking at your hand or finger rather than the target, which suggests a difference in following pointing cues.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 3,
+          "seconds": 1.19,
+          "input": "I am the mother and care for my child most days at home. No, not really. He likes lining up his cars in rows and spinning their wheels, but he doesn't pretend to drive them or make car sounds.",
+          "response": "Thanks for sharing. Noting that your child currently lines up and spins toys rather than engaging in pretend play, which helps document how play behavior looks in your home.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 8,
+          "seconds": 1.0,
+          "input": "I am the mother and care for my child most days at home. When cousins visit us at home, my child usually plays alone and does not approach them.",
+          "response": "Noted: you\u2019re observing that when cousins visit, Fictional Jordan usually plays alone and does not approach them. One clarification: is your observation limited to family visits at home, or have you seen similar behavior with other children in different settings as well?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 10,
+          "seconds": 1.03,
+          "input": "I am the mother and care for my child most days at home. Rarely. We have to call his name many times or go to him physically. Sometimes we wonder if he even knows his name.",
+          "response": "Noted: you\u2019re saying Jordan rarely responds to his name, needing many calls or physical approach, and you\u2019re unsure if he recognizes his name. Answer from what you personally observe during home caregiving. You can add any other observations later if you\u2019re able.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 12,
+          "seconds": 0.95,
+          "input": "I am the mother and care for my child most days at home. Yes, definitely. He covers his ears and screams when the vacuum is on, or if there's a loud unexpected noise.",
+          "response": "Noted: you observe that Fictional Jordan covers ears and screams with vacuum or loud unexpected noises at home. One clarification: is this pattern limited to home during specific noises, or have you seen similar reactions in other settings or with other sounds as well?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 19,
+          "seconds": 0.91,
+          "input": "I am the mother and care for my child most days at home. No, he doesn't look to us when something new happens. He just reacts on his own or ignores it.",
+          "response": "Thanks for sharing how Jordan responds in your home. Noted: you observe that in new situations Jordan does not look to you or others for cues and tends to react on his own or ignore the new thing.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "evaluate",
+          "seconds": 19.21
+        }
+      ],
+      "score": {
+        "total": 19,
+        "band": "HIGH",
+        "missing": [],
+        "answered": 20,
+        "followup": "not required before referral",
+        "recommendation": "The official algorithm recommends referral for early intervention and diagnostic evaluation without waiting for the formal Follow-Up.",
+        "items": [
+          {
+            "id": 1,
+            "label": "Point following",
+            "text": "If you point at something across the room, does your child look at it?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 2,
+            "label": "Deaf concern",
+            "text": "Have you ever wondered if your child might be deaf?",
+            "answer": "yes",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 3,
+            "label": "Pretend play",
+            "text": "Does your child play pretend or make-believe?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 4,
+            "label": "Climbing",
+            "text": "Does your child like climbing on things?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 5,
+            "label": "Unusual finger movements",
+            "text": "Does your child make unusual finger movements near his or her eyes?",
+            "answer": "yes",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 6,
+            "label": "Pointing to request",
+            "text": "Does your child point with one finger to ask for something or to get help?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 7,
+            "label": "Pointing to share interest",
+            "text": "Does your child point with one finger to show you something interesting?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 8,
+            "label": "Interest in children",
+            "text": "Is your child interested in other children?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 9,
+            "label": "Showing objects",
+            "text": "Does your child show you things by bringing them to you or holding them up for you to see?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 10,
+            "label": "Response to name",
+            "text": "Does your child respond when you call his or her name?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 11,
+            "label": "Social smile",
+            "text": "When you smile at your child, does he or she smile back at you?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 12,
+            "label": "Noise sensitivity",
+            "text": "Does your child get upset by everyday noises?",
+            "answer": "yes",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 13,
+            "label": "Walking",
+            "text": "Does your child walk?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 14,
+            "label": "Eye contact",
+            "text": "Does your child look you in the eye when you are talking to him or her, playing with him or her, or dressing him or her?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 15,
+            "label": "Imitation",
+            "text": "Does your child try to copy what you do?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 16,
+            "label": "Gaze following",
+            "text": "If you turn your head to look at something, does your child look around to see what you are looking at?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 17,
+            "label": "Attention seeking",
+            "text": "Does your child try to get you to watch him or her?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 18,
+            "label": "Language comprehension",
+            "text": "Does your child understand when you tell him or her to do something?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 19,
+            "label": "Social referencing",
+            "text": "If something new happens, does your child look at your face to see how you feel about it?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          },
+          {
+            "id": 20,
+            "label": "Movement activities",
+            "text": "Does your child like movement activities?",
+            "answer": "no",
+            "result": "elevated likelihood"
+          }
+        ]
+      },
+      "report": {
+        "session_id": "ad24dd0f-d6c9-40ee-ab39-bcd322f84045",
+        "child": {
+          "name": "Fictional Jordan",
+          "age": 22,
+          "relationship": "Mother"
+        },
+        "mode": "interactive",
+        "revision": 29,
+        "score": {
+          "total": 19,
+          "band": "HIGH",
+          "missing": [],
+          "answered": 20,
+          "followup": "not required before referral",
+          "recommendation": "The official algorithm recommends referral for early intervention and diagnostic evaluation without waiting for the formal Follow-Up.",
+          "items": [
+            {
+              "id": 1,
+              "label": "Point following",
+              "text": "If you point at something across the room, does your child look at it?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 2,
+              "label": "Deaf concern",
+              "text": "Have you ever wondered if your child might be deaf?",
+              "answer": "yes",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 3,
+              "label": "Pretend play",
+              "text": "Does your child play pretend or make-believe?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 4,
+              "label": "Climbing",
+              "text": "Does your child like climbing on things?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 5,
+              "label": "Unusual finger movements",
+              "text": "Does your child make unusual finger movements near his or her eyes?",
+              "answer": "yes",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 6,
+              "label": "Pointing to request",
+              "text": "Does your child point with one finger to ask for something or to get help?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 7,
+              "label": "Pointing to share interest",
+              "text": "Does your child point with one finger to show you something interesting?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 8,
+              "label": "Interest in children",
+              "text": "Is your child interested in other children?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 9,
+              "label": "Showing objects",
+              "text": "Does your child show you things by bringing them to you or holding them up for you to see?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 10,
+              "label": "Response to name",
+              "text": "Does your child respond when you call his or her name?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 11,
+              "label": "Social smile",
+              "text": "When you smile at your child, does he or she smile back at you?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 12,
+              "label": "Noise sensitivity",
+              "text": "Does your child get upset by everyday noises?",
+              "answer": "yes",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 13,
+              "label": "Walking",
+              "text": "Does your child walk?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 14,
+              "label": "Eye contact",
+              "text": "Does your child look you in the eye when you are talking to him or her, playing with him or her, or dressing him or her?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 15,
+              "label": "Imitation",
+              "text": "Does your child try to copy what you do?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 16,
+              "label": "Gaze following",
+              "text": "If you turn your head to look at something, does your child look around to see what you are looking at?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 17,
+              "label": "Attention seeking",
+              "text": "Does your child try to get you to watch him or her?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 18,
+              "label": "Language comprehension",
+              "text": "Does your child understand when you tell him or her to do something?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 19,
+              "label": "Social referencing",
+              "text": "If something new happens, does your child look at your face to see how you feel about it?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            },
+            {
+              "id": 20,
+              "label": "Movement activities",
+              "text": "Does your child like movement activities?",
+              "answer": "no",
+              "result": "elevated likelihood"
+            }
+          ]
+        },
+        "analysis": {
+          "criteria": [
+            {
+              "code": "A1",
+              "status": "reported concern",
+              "interpretation": "Caregiver reports limited social-emotional reciprocity: the child often does not respond to his name and does not bring or show objects to share interest with the parent, which the caregiver describes as worrying for everyday communication at home.",
+              "evidence": [
+                {
+                  "turn_id": "a70442de-f703-4586-af8f-040d35a5ce24",
+                  "quote": "I am the mother and care for my child most days at home. Rarely. We have to call his name many times or go to him physically. Sometimes we wonder if he even knows his name.",
+                  "interpretation": "\"Rarely. We have to call his name many times or go to him physically. Sometimes we wonder if he even knows his name.\"",
+                  "question_id": 10
+                }
+              ],
+              "source_pages": [
+                1,
+                2
+              ],
+              "missing_context": "No observations from other caregivers or settings (e.g., daycare) about response to name or showing objects; hearing status is unknown beyond caregiver wondering about deafness (see B4/A1 limitation).",
+              "title": "Social-emotional reciprocity"
+            },
+            {
+              "code": "A2",
+              "status": "reported concern",
+              "interpretation": "Caregiver describes atypical use/understanding of gestures and nonverbal communication: when pointed to something, the child looks at the parent's hand/finger rather than the target, and caregiver reports reduced eye contact.",
+              "evidence": [
+                {
+                  "turn_id": "71805c88-d6f3-4962-8490-bb2f2499e5ce",
+                  "quote": "I am the mother and care for my child most days at home. He usually looks at my hand or finger instead of where I'm pointing. It's like he doesn't understand what pointing means.",
+                  "interpretation": "\"He usually looks at my hand or finger instead of where I'm pointing. It's like he doesn't understand what pointing means.\"",
+                  "question_id": 1
+                }
+              ],
+              "source_pages": [
+                2
+              ],
+              "missing_context": "No direct observational examples across multiple settings of gaze following or coordinated gesture-plus-eye contact; eye contact selection was reported as 'no' (E34) but no descriptive quote was selected for A2 to avoid reusing evidence ids.",
+              "title": "Nonverbal communication"
+            },
+            {
+              "code": "A3",
+              "status": "reported concern",
+              "interpretation": "Caregiver reports limited interest in peers and solitary play during family visits, indicating difficulty developing/maintaining relationships appropriate to context.",
+              "evidence": [
+                {
+                  "turn_id": "f2134cf6-3f64-4bfd-85ec-7f91b3db00d0",
+                  "quote": "I am the mother and care for my child most days at home. When cousins visit us at home, my child usually plays alone and does not approach them.",
+                  "interpretation": "\"When cousins visit us at home, my child usually plays alone and does not approach them.\"",
+                  "question_id": 8
+                }
+              ],
+              "source_pages": [
+                2,
+                3
+              ],
+              "missing_context": "No reports about the child's attempts to form friendships in other settings (e.g., preschool) or examples of cooperative play beyond family visits.",
+              "title": "Developing and maintaining relationships"
+            },
+            {
+              "code": "B1",
+              "status": "reported concern",
+              "interpretation": "Caregiver describes repetitive or nonfunctional play with objects: the child lines up cars and spins their wheels without pretending, which fits stereotyped or repetitive use of objects.",
+              "evidence": [
+                {
+                  "turn_id": "04849450-df8a-4b88-890c-32450cc68e62",
+                  "quote": "I am the mother and care for my child most days at home. No, not really. He likes lining up his cars in rows and spinning their wheels, but he doesn't pretend to drive them or make car sounds.",
+                  "interpretation": "\"He likes lining up his cars in rows and spinning their wheels, but he doesn't pretend to drive them or make car sounds.\"",
+                  "question_id": 3
+                }
+              ],
+              "source_pages": [
+                3,
+                4
+              ],
+              "missing_context": "No information about whether these behaviors occur across multiple contexts or their frequency/duration relative to developmental norms beyond the caregiver's report 'most days'.",
+              "title": "Repetitive movements, speech, or object use"
+            },
+            {
+              "code": "B2",
+              "status": "reported concern",
+              "interpretation": "Caregiver reports distress and difficulty with small changes in routine (transition/route change) consistent with excessive resistance to change or difficulty with transitions.",
+              "evidence": [
+                {
+                  "turn_id": "90f512b3-c9bf-4c17-8ec0-6bfc21e24a0a",
+                  "quote": "Changing our familiar route to the playground often leads to crying and difficulty settling for about ten minutes.",
+                  "interpretation": "\"Changing our familiar route to the playground often leads to crying and difficulty settling for about ten minutes.\"",
+                  "question_id": null
+                }
+              ],
+              "source_pages": [
+                4
+              ],
+              "missing_context": "No information about whether insistence on sameness appears in other routines (meals, bedtime) or the exact developmental expectations for this child's age in these situations.",
+              "title": "Routines and resistance to change"
+            },
+            {
+              "code": "B3",
+              "status": "reported concern",
+              "interpretation": "Caregiver reports a focused interest in spinning parts of toys that holds attention for long periods, suggesting a narrow, intense interest in sensory aspects of objects.",
+              "evidence": [
+                {
+                  "turn_id": "07b13418-90d8-4a9a-bb0f-db46a61dde9e",
+                  "quote": "At home, spinning toy wheels holds attention for long periods, and shifting to meals often needs repeated support.",
+                  "interpretation": "\"At home, spinning toy wheels holds attention for long periods, and shifting to meals often needs repeated support.\"",
+                  "question_id": null
+                }
+              ],
+              "source_pages": [
+                4,
+                5
+              ],
+              "missing_context": "No description of whether the interest is accompanied by other preoccupations (e.g., carrying objects) or whether it displaces most other activities across settings.",
+              "title": "Restricted interests"
+            },
+            {
+              "code": "B4",
+              "status": "reported concern",
+              "interpretation": "Caregiver reports strong adverse reactions to everyday sounds (auditory hyperreactivity): covering ears and screaming with vacuum and other loud unexpected noises.",
+              "evidence": [
+                {
+                  "turn_id": "d5c58062-5115-4612-bc4e-d71fbca99b29",
+                  "quote": "I am the mother and care for my child most days at home. Yes, definitely. He covers his ears and screams when the vacuum is on, or if there's a loud unexpected noise.",
+                  "interpretation": "\"He covers his ears and screams when the vacuum is on, or if there's a loud unexpected noise.\"",
+                  "question_id": 12
+                }
+              ],
+              "source_pages": [
+                5
+              ],
+              "missing_context": "No audiology evaluation is provided; caregiver also reported wondering about deafness (E6), which complicates interpretation of auditory responses without hearing assessment.",
+              "title": "Sensory reactivity"
+            }
+          ],
+          "summary": "The mother reports that at home her child often does not respond reliably to his name or share things to show interest, looks at her finger instead of the pointed-to object and shows limited eye contact, plays alone with cousins, lines up and spins toy wheels without pretend play, becomes upset with small changes in routine, focuses for long periods on spinning parts of toys, and is very distressed by loud household noises. These observations come from the mother\u2019s daily home caregiving context and reflect what she has noticed most days. Some information is missing (hearing evaluation, other caregivers\u2019 observations, and details across settings), which limits conclusions about broader patterns. ",
+          "strengths": [
+            "Caregiver provides consistent daily observations and reports the child walks independently (selection E32).",
+            "Caregiver identified specific examples and onset timing (noted around 18 months, E49)."
+          ],
+          "limitations": [
+            "All behavioral reports are from the mother at home; no independent observations from other settings (e.g., preschool) are available.",
+            "No formal hearing evaluation is reported despite caregiver concern about deafness, which affects interpretation of response-to-name and sound reactivity.",
+            "Timing, frequency, and severity details for some behaviors (e.g., how long lining up/spinning occurs each day) are limited."
+          ]
+        },
+        "observation_context": {
+          "setting": "Home and family play",
+          "frequency": "Most days",
+          "familiarity": "Since birth"
+        },
+        "context": {
+          "onset": "I first noticed these patterns around 18 months, but I am uncertain about the exact timing.",
+          "impact": "At home, communicating needs and joining family play are difficult. I feel worried and would like practical next steps rather than a diagnosis from this tool.",
+          "routines": "Changing our familiar route to the playground often leads to crying and difficulty settling for about ten minutes.",
+          "interests": "At home, spinning toy wheels holds attention for long periods, and shifting to meals often needs repeated support.",
+          "other_observations": ""
+        },
+        "model": "gpt-5-mini",
+        "prompt_version": "haven-evaluator-2",
+        "instrument": "Project M-CHAT-R question set v2.0; initial screening only",
+        "references": [
+          {
+            "title": "DSM-5 Autism Spectrum Disorder: Guidelines & Criteria Exemplars",
+            "author": "Laura Carpenter, PhD",
+            "date": "February 2013",
+            "status": "Pre-publication exemplars; not a complete current diagnostic standard",
+            "sha256": "4eab31ed47f0d2059dcdf8776ddcdaebe7d50d6545633a3337d693ed6b6ec637"
+          },
+          {
+            "title": "CDC: Clinical Testing and Diagnosis for ASD",
+            "url": "https://www.cdc.gov/autism/hcp/diagnosis/index.html",
+            "reviewed": "2026-09-15",
+            "summary": "Published criteria include all three A areas, at least two B areas, early developmental onset, significant functional impairment, and exclusion of better explanations. Screening does not establish these criteria."
+          },
+          {
+            "title": "Official M-CHAT-R/F scoring",
+            "url": "https://www.mchatscreen.com/mchat-rf/scoring/"
+          }
+        ],
+        "disclaimer": "This is a screening report, not a diagnosis. A positive screen does not establish autism, and a negative screen does not rule it out. Discuss observations with a qualified healthcare professional.",
+        "recommendations": {
+          "Primary recommendation": "The official algorithm recommends referral for early intervention and diagnostic evaluation without waiting for the formal Follow-Up.",
+          "Secondary recommendation": "Bring examples of everyday communication, play, routines, and sensory experiences to your care team. Discuss both strengths and concerns.",
+          "Additional resources": "The official M-CHAT-R/F scoring guidance and CDC clinical assessment overview are listed in References.",
+          "Follow-up plan": "Discuss the appropriate follow-up and timing with your child\u2019s healthcare professional. No appointment or referral has been scheduled by this application."
+        },
+        "id": "d5a3240a-ec03-4d4d-9d57-62b17ae12988",
+        "created": "2026-09-18T18:50:14.805528+00:00",
+        "stale": false
+      },
+      "seconds": 28.29
+    },
+    {
+      "fictional": true,
+      "persona": "dad",
+      "relationship": "Father",
+      "checks": {
+        "focused_guide": true,
+        "completed_20": true,
+        "pause_resume": true,
+        "report_ready": true,
+        "observation_context_preserved": true,
+        "different_observations_preserved": true,
+        "pdf_download": true,
+        "cleared": true
+      },
+      "events": [
+        {
+          "type": "guide",
+          "question": 1,
+          "seconds": 1.79,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. She always looks where I point. If I point at a bird outside, she gets excited and looks right at it.",
+          "response": "Noted that you observe Riley looking where you point during quiet, one-to-one play and weekend moments. Your answer indicates a positive response in your observed setting.",
+          "suggested_answer": "yes"
+        },
+        {
+          "type": "guide",
+          "question": 3,
+          "seconds": 0.87,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. Oh yes! She loves pretending to feed her baby doll and has tea parties with her stuffed animals.",
+          "response": "Thanks for sharing what you\u2019ve observed during quiet, one-to-one play. It sounds like Riley enjoys pretend play, especially feeding a baby doll and tea parties with stuffed animals.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 8,
+          "seconds": 0.81,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. At the playground on weekends, she approaches children and tries to join their play.",
+          "response": "Thanks for sharing. Noted that Riley approaches other children and tends to join their play during weekend playground time.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 10,
+          "seconds": 0.95,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. My child usually looks when I call during quiet play. My partner says this happens less during busy routines. Should I report what I see or what my partner sees?",
+          "response": "Thanks for sharing. You\u2019re observing that Riley usually looks when you call during quiet play, but your partner notes it happens less during busy routines. Answer from what you personally observe during quiet play. You can add your partner\u2019s different observation at review, or choose Not sure if you cannot decide.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 12,
+          "seconds": 1.02,
+          "input": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. No, she's pretty easygoing with noises. The vacuum doesn't bother her at all.",
+          "response": "Thanks for sharing. You\u2019ve described Riley as handling routine noisy sounds like the vacuum quite well in one-to-one evening and weekend play. Noted that this is your observation; if you have other settings or times you\u2019re unsure about, you can add those later.",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "guide",
+          "question": 19,
+          "seconds": 0.99,
+          "input": "I am her father. When something unfamiliar happens during our weekend play, she looks at me to check my reaction.",
+          "response": "Thanks for sharing. You\u2019ve noted that during unfamiliar moments in weekend play, Fictional Riley looks to you for your reaction. Can you tell me if this holds true across other settings or times, or is it mainly during weekend play?",
+          "suggested_answer": "unknown"
+        },
+        {
+          "type": "evaluate",
+          "seconds": 23.11
+        }
+      ],
+      "score": {
+        "total": 0,
+        "band": "LOW",
+        "missing": [],
+        "answered": 20,
+        "followup": "not indicated by initial score",
+        "recommendation": "No formal Follow-Up is indicated by this initial score. Discuss any developmental concerns with the care team; rescreen at 24 months if the child is younger than two.",
+        "items": [
+          {
+            "id": 1,
+            "label": "Point following",
+            "text": "If you point at something across the room, does your child look at it?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 2,
+            "label": "Deaf concern",
+            "text": "Have you ever wondered if your child might be deaf?",
+            "answer": "no",
+            "result": "low likelihood"
+          },
+          {
+            "id": 3,
+            "label": "Pretend play",
+            "text": "Does your child play pretend or make-believe?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 4,
+            "label": "Climbing",
+            "text": "Does your child like climbing on things?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 5,
+            "label": "Unusual finger movements",
+            "text": "Does your child make unusual finger movements near his or her eyes?",
+            "answer": "no",
+            "result": "low likelihood"
+          },
+          {
+            "id": 6,
+            "label": "Pointing to request",
+            "text": "Does your child point with one finger to ask for something or to get help?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 7,
+            "label": "Pointing to share interest",
+            "text": "Does your child point with one finger to show you something interesting?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 8,
+            "label": "Interest in children",
+            "text": "Is your child interested in other children?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 9,
+            "label": "Showing objects",
+            "text": "Does your child show you things by bringing them to you or holding them up for you to see?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 10,
+            "label": "Response to name",
+            "text": "Does your child respond when you call his or her name?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 11,
+            "label": "Social smile",
+            "text": "When you smile at your child, does he or she smile back at you?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 12,
+            "label": "Noise sensitivity",
+            "text": "Does your child get upset by everyday noises?",
+            "answer": "no",
+            "result": "low likelihood"
+          },
+          {
+            "id": 13,
+            "label": "Walking",
+            "text": "Does your child walk?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 14,
+            "label": "Eye contact",
+            "text": "Does your child look you in the eye when you are talking to him or her, playing with him or her, or dressing him or her?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 15,
+            "label": "Imitation",
+            "text": "Does your child try to copy what you do?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 16,
+            "label": "Gaze following",
+            "text": "If you turn your head to look at something, does your child look around to see what you are looking at?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 17,
+            "label": "Attention seeking",
+            "text": "Does your child try to get you to watch him or her?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 18,
+            "label": "Language comprehension",
+            "text": "Does your child understand when you tell him or her to do something?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 19,
+            "label": "Social referencing",
+            "text": "If something new happens, does your child look at your face to see how you feel about it?",
+            "answer": "yes",
+            "result": "low likelihood"
+          },
+          {
+            "id": 20,
+            "label": "Movement activities",
+            "text": "Does your child like movement activities?",
+            "answer": "yes",
+            "result": "low likelihood"
+          }
+        ]
+      },
+      "report": {
+        "session_id": "0371506f-bac0-4561-a781-993067523df2",
+        "child": {
+          "name": "Fictional Riley",
+          "age": 20,
+          "relationship": "Father"
+        },
+        "mode": "interactive",
+        "revision": 29,
+        "score": {
+          "total": 0,
+          "band": "LOW",
+          "missing": [],
+          "answered": 20,
+          "followup": "not indicated by initial score",
+          "recommendation": "No formal Follow-Up is indicated by this initial score. Discuss any developmental concerns with the care team; rescreen at 24 months if the child is younger than two.",
+          "items": [
+            {
+              "id": 1,
+              "label": "Point following",
+              "text": "If you point at something across the room, does your child look at it?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 2,
+              "label": "Deaf concern",
+              "text": "Have you ever wondered if your child might be deaf?",
+              "answer": "no",
+              "result": "low likelihood"
+            },
+            {
+              "id": 3,
+              "label": "Pretend play",
+              "text": "Does your child play pretend or make-believe?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 4,
+              "label": "Climbing",
+              "text": "Does your child like climbing on things?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 5,
+              "label": "Unusual finger movements",
+              "text": "Does your child make unusual finger movements near his or her eyes?",
+              "answer": "no",
+              "result": "low likelihood"
+            },
+            {
+              "id": 6,
+              "label": "Pointing to request",
+              "text": "Does your child point with one finger to ask for something or to get help?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 7,
+              "label": "Pointing to share interest",
+              "text": "Does your child point with one finger to show you something interesting?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 8,
+              "label": "Interest in children",
+              "text": "Is your child interested in other children?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 9,
+              "label": "Showing objects",
+              "text": "Does your child show you things by bringing them to you or holding them up for you to see?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 10,
+              "label": "Response to name",
+              "text": "Does your child respond when you call his or her name?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 11,
+              "label": "Social smile",
+              "text": "When you smile at your child, does he or she smile back at you?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 12,
+              "label": "Noise sensitivity",
+              "text": "Does your child get upset by everyday noises?",
+              "answer": "no",
+              "result": "low likelihood"
+            },
+            {
+              "id": 13,
+              "label": "Walking",
+              "text": "Does your child walk?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 14,
+              "label": "Eye contact",
+              "text": "Does your child look you in the eye when you are talking to him or her, playing with him or her, or dressing him or her?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 15,
+              "label": "Imitation",
+              "text": "Does your child try to copy what you do?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 16,
+              "label": "Gaze following",
+              "text": "If you turn your head to look at something, does your child look around to see what you are looking at?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 17,
+              "label": "Attention seeking",
+              "text": "Does your child try to get you to watch him or her?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 18,
+              "label": "Language comprehension",
+              "text": "Does your child understand when you tell him or her to do something?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 19,
+              "label": "Social referencing",
+              "text": "If something new happens, does your child look at your face to see how you feel about it?",
+              "answer": "yes",
+              "result": "low likelihood"
+            },
+            {
+              "id": 20,
+              "label": "Movement activities",
+              "text": "Does your child like movement activities?",
+              "answer": "yes",
+              "result": "low likelihood"
+            }
+          ]
+        },
+        "analysis": {
+          "criteria": [
+            {
+              "code": "A1",
+              "status": "no concern reported",
+              "interpretation": "The father described several examples of reciprocal social behavior: the child shows or brings items, responds to being called during quiet play, returns a social smile, and looks to the father for cues about unfamiliar events.",
+              "evidence": [
+                {
+                  "turn_id": "8d64a7db-b8d9-4579-989d-e3f591d2aa14",
+                  "quote": "yes",
+                  "interpretation": "\"yes\" to 'Does your child show you things by bringing them to you or holding them up for you to see?' \u2014 indicates sharing/bringing objects to engage parent.",
+                  "question_id": 9
+                },
+                {
+                  "turn_id": "4b764d68-4feb-4e43-b062-85a9431b7a0d",
+                  "quote": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. My child usually looks when I call during quiet play. My partner says this happens less during busy routines. Should I report what I see or what my partner sees?",
+                  "interpretation": "\"My child usually looks when I call during quiet play. My partner says this happens less during busy routines.\" \u2014 father reports responsive behavior in his observed context.",
+                  "question_id": 10
+                },
+                {
+                  "turn_id": "11079178-4cd7-455e-8abc-cc4c99688908",
+                  "quote": "yes",
+                  "interpretation": "\"yes\" to 'When you smile at your child, does he or she smile back at you?' \u2014 indicates responsive social smile.",
+                  "question_id": 11
+                },
+                {
+                  "turn_id": "8bccd71f-781a-49ba-b596-3db712ae4800",
+                  "quote": "I am her father. When something unfamiliar happens during our weekend play, she looks at me to check my reaction.",
+                  "interpretation": "\"When something unfamiliar happens during our weekend play, she looks at me to check my reaction.\" \u2014 example of social referencing and sharing affect.",
+                  "question_id": 19
+                }
+              ],
+              "source_pages": [
+                1,
+                2
+              ],
+              "missing_context": "Father's observations are primarily evenings/weekends one-on-one; partner reports less responsiveness during busy weekday routines (see E24).",
+              "title": "Social-emotional reciprocity"
+            },
+            {
+              "code": "A2",
+              "status": "no concern reported",
+              "interpretation": "The father reports intact nonverbal communicative behaviors: the child reliably follows pointing and makes eye contact during interactions.",
+              "evidence": [
+                {
+                  "turn_id": "c5c632a4-03df-4b1f-a3d2-7b2065322187",
+                  "quote": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. She always looks where I point. If I point at a bird outside, she gets excited and looks right at it.",
+                  "interpretation": "\"She always looks where I point. If I point at a bird outside, she gets excited and looks right at it.\" \u2014 direct example of point following/joint attention response.",
+                  "question_id": 1
+                },
+                {
+                  "turn_id": "d1d9c78b-52a6-4392-9ec6-6e0ef810ec1b",
+                  "quote": "yes",
+                  "interpretation": "\"yes\" to 'Does your child look you in the eye when you are talking to him or her...?' \u2014 indicates eye contact during interactions.",
+                  "question_id": 14
+                }
+              ],
+              "source_pages": [
+                2
+              ],
+              "missing_context": "Observations mainly from quiet one-to-one play; less is known about eye contact and gesture use during busy routines or daycare.",
+              "title": "Nonverbal communication"
+            },
+            {
+              "code": "A3",
+              "status": "no concern reported",
+              "interpretation": "The father reports the child shows interest in peers and initiates approaches to join other children at the playground.",
+              "evidence": [
+                {
+                  "turn_id": "0eea2f5d-cf33-487b-b12e-f10018cb2379",
+                  "quote": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. At the playground on weekends, she approaches children and tries to join their play.",
+                  "interpretation": "\"At the playground on weekends, she approaches children and tries to join their play.\" \u2014 indicates peer interest and attempts to engage.",
+                  "question_id": 8
+                }
+              ],
+              "source_pages": [
+                2,
+                3
+              ],
+              "missing_context": "This is based on weekend playground observations; limited information about peer interactions in weekday/daycare settings.",
+              "title": "Developing and maintaining relationships"
+            },
+            {
+              "code": "B1",
+              "status": "no concern reported",
+              "interpretation": "The father denied observing unusual repetitive motor movements near the eyes or other stereotyped motor behaviors.",
+              "evidence": [
+                {
+                  "turn_id": "572213e6-0a80-4bd8-b1e8-c6545c40e77f",
+                  "quote": "no",
+                  "interpretation": "\"no\" to 'Does your child make unusual finger movements near his or her eyes?' \u2014 indicates absence of that specific stereotyped movement.",
+                  "question_id": 5
+                }
+              ],
+              "source_pages": [
+                3,
+                4
+              ],
+              "missing_context": "No other reports of repetitive motor movements or atypical speech were provided; observations again mainly during quiet one-to-one play.",
+              "title": "Repetitive movements, speech, or object use"
+            },
+            {
+              "code": "B2",
+              "status": "no concern reported",
+              "interpretation": "The father described that the child usually accepts changes after a short explanation and did not report rigid routines or distress at small changes.",
+              "evidence": [
+                {
+                  "turn_id": "47a40e55-3d99-4939-8227-77c79b9bba6a",
+                  "quote": "During weekends my child usually accepts a change after a short explanation. I cannot describe daycare transitions.",
+                  "interpretation": "\"During weekends my child usually accepts a change after a short explanation. I cannot describe daycare transitions.\" \u2014 directly addresses routines and transitions.",
+                  "question_id": null
+                }
+              ],
+              "source_pages": [
+                4
+              ],
+              "missing_context": "Father lacks observations of daycare/weekday transitions where his partner reports more difficulty; limited cross-context information.",
+              "title": "Routines and resistance to change"
+            },
+            {
+              "code": "B3",
+              "status": "no concern reported",
+              "interpretation": "The father reports a varied set of toy choices and that the child shifts between them, rather than a narrow or fixated interest.",
+              "evidence": [
+                {
+                  "turn_id": "c5ecb0c1-b184-4963-8821-f1d751a7fdc2",
+                  "quote": "My child chooses several kinds of toys during our play and usually shifts between them.",
+                  "interpretation": "\"My child chooses several kinds of toys during our play and usually shifts between them.\" \u2014 indicates varied interests rather than a restricted, fixated interest.",
+                  "question_id": null
+                }
+              ],
+              "source_pages": [
+                4,
+                5
+              ],
+              "missing_context": "This observation is from father\u2019s one-to-one play; no further details about intensity or preoccupation with specific topics across contexts.",
+              "title": "Restricted interests"
+            },
+            {
+              "code": "B4",
+              "status": "no concern reported",
+              "interpretation": "The father reports the child tolerates typical household noises and enjoys climbing and movement activities, not showing adverse sensory reactivity in his observed contexts.",
+              "evidence": [
+                {
+                  "turn_id": "7b54d742-5771-45b2-87b0-7e15d1903249",
+                  "quote": "I am the father. Most of my observations are from evenings and weekends, when we play one-to-one. No, she's pretty easygoing with noises. The vacuum doesn't bother her at all.",
+                  "interpretation": "\"No, she's pretty easygoing with noises. The vacuum doesn't bother her at all.\" \u2014 indicates no adverse response to a common household noise.",
+                  "question_id": 12
+                },
+                {
+                  "turn_id": "d71103d4-6481-4a38-8c47-c11d71e76f33",
+                  "quote": "yes",
+                  "interpretation": "\"yes\" to 'Does your child like climbing on things?' \u2014 indicates engagement in movement/vestibular activities rather than avoidance.",
+                  "question_id": 4
+                }
+              ],
+              "source_pages": [
+                5
+              ],
+              "missing_context": "Father's reports are from quiet home and playground settings; sensory responses in other contexts (e.g., daycare, noisy groups) are not described in detail.",
+              "title": "Sensory reactivity"
+            }
+          ],
+          "summary": "The father reports many positive social and play behaviors during his evening and weekend one-on-one play: the child follows pointing, makes eye contact, smiles back, shows and brings objects, engages with peers at the playground, enjoys pretend play, and tolerates noises and movement. He also notes that his partner sees less responsiveness during busy weekday routines, and he has limited observations of daycare or weekday settings. Strengths are based on the father's direct observations in quiet play and weekend playgrounds.",
+          "strengths": [
+            "Followed pointing reliably and showed excitement when looking at pointed-to objects (E3).",
+            "Engages in pretend play (feeding a doll, tea parties) and shifts between different toys (E8, E52).",
+            "Approaches and attempts to join other children at the playground (E19).",
+            "Responds to name and social smiles; shows objects to the parent (E24, E27, E22).",
+            "Tolerates household noises and enjoys climbing/movement (E29, E11)."
+          ],
+          "limitations": [
+            "Most observations come from evenings and weekends during one-to-one play with the father (E3, E8, E24).",
+            "Father reports his partner sees less responsiveness during busy weekday routines and he has limited firsthand observation of those contexts (E24, E49, E53).",
+            "Daycare and weekday transition behaviors are not well described by this reporter (E51)."
+          ]
+        },
+        "observation_context": {
+          "setting": "Quiet one-to-one play at home and weekend playground",
+          "frequency": "Evenings and weekends",
+          "familiarity": "Since birth"
+        },
+        "context": {
+          "onset": "I have not noticed a consistent change. My partner sees more weekday routines than I do.",
+          "impact": "One-to-one play at home usually goes smoothly. My partner reports more difficulty responding during busy routines; I do not see those situations often.",
+          "routines": "During weekends my child usually accepts a change after a short explanation. I cannot describe daycare transitions.",
+          "interests": "My child chooses several kinds of toys during our play and usually shifts between them.",
+          "other_observations": "My partner told me the child responds less during busy weekday routines. I personally see a response during quiet weekend play. I have not observed those weekday situations."
+        },
+        "model": "gpt-5-mini",
+        "prompt_version": "haven-evaluator-2",
+        "instrument": "Project M-CHAT-R question set v2.0; initial screening only",
+        "references": [
+          {
+            "title": "DSM-5 Autism Spectrum Disorder: Guidelines & Criteria Exemplars",
+            "author": "Laura Carpenter, PhD",
+            "date": "February 2013",
+            "status": "Pre-publication exemplars; not a complete current diagnostic standard",
+            "sha256": "4eab31ed47f0d2059dcdf8776ddcdaebe7d50d6545633a3337d693ed6b6ec637"
+          },
+          {
+            "title": "CDC: Clinical Testing and Diagnosis for ASD",
+            "url": "https://www.cdc.gov/autism/hcp/diagnosis/index.html",
+            "reviewed": "2026-09-15",
+            "summary": "Published criteria include all three A areas, at least two B areas, early developmental onset, significant functional impairment, and exclusion of better explanations. Screening does not establish these criteria."
+          },
+          {
+            "title": "Official M-CHAT-R/F scoring",
+            "url": "https://www.mchatscreen.com/mchat-rf/scoring/"
+          }
+        ],
+        "disclaimer": "This is a screening report, not a diagnosis. A positive screen does not establish autism, and a negative screen does not rule it out. Discuss observations with a qualified healthcare professional.",
+        "recommendations": {
+          "Primary recommendation": "No formal Follow-Up is indicated by this initial score. Discuss any developmental concerns with the care team; rescreen at 24 months if the child is younger than two.",
+          "Secondary recommendation": "Bring examples of everyday communication, play, routines, and sensory experiences to your care team. Discuss both strengths and concerns.",
+          "Additional resources": "The official M-CHAT-R/F scoring guidance and CDC clinical assessment overview are listed in References.",
+          "Follow-up plan": "Discuss the appropriate follow-up and timing with your child\u2019s healthcare professional. No appointment or referral has been scheduled by this application."
+        },
+        "id": "d94b37c5-808b-4324-8525-6034553dad8f",
+        "created": "2026-09-18T18:50:18.295858+00:00",
+        "stale": false
+      },
+      "seconds": 30.9
+    }
+  ]
+}

@@ -8,6 +8,7 @@ class Store:
   self.ttl_seconds=ttl_seconds
   self.sessions={}
  def put(self,s):
+  s['expires_at']=time.time()+self.ttl_seconds
   self.sessions[s['id']]=(time.monotonic(),copy.deepcopy(s))
  def get(self,sid,owner):
   self.expire()

@@ -22,10 +22,16 @@ DISCLAIMER = 'This is a screening report, not a diagnosis. A positive screen doe
 class StrictModel(BaseModel):
  model_config = ConfigDict(extra='forbid')
 
+class ObservationContext(StrictModel):
+ setting: str = Field(default='', max_length=200)
+ frequency: str = Field(default='', max_length=200)
+ familiarity: str = Field(default='', max_length=200)
+
 class SessionInput(StrictModel):
  name: str = Field(min_length=1, max_length=80)
  age: int = Field(ge=16, le=30)
  relationship: str = Field(min_length=1,max_length=60)
+ observation_context: ObservationContext = Field(default_factory=ObservationContext)
  mode: Literal['interactive'] = 'interactive'
  consent: bool = False
 
@@ -42,13 +48,14 @@ class AnswerInput(Mutation):
  value: Literal['yes','no','unknown']
 
 class ControlInput(Mutation):
- action: Literal['pause','resume','stop','reset']
+ action: Literal['pause','resume','stop','reset','keepalive']
 
 class ContextInput(Mutation):
  onset: str = Field(default='',max_length=2000)
  impact: str = Field(default='',max_length=2000)
  routines: str = Field(default='',max_length=2000)
  interests: str = Field(default='',max_length=2000)
+ other_observations: str = Field(default='',max_length=2000)
 
 class GuideReply(StrictModel):
  response: str
@@ -88,5 +95,22 @@ def score(answers):
  'HIGH': 'The official algorithm recommends referral for early intervention and diagnostic evaluation without waiting for the formal Follow-Up.'
  }[band]
  return {'total':total,'band':band,'missing':missing,'answered':len(normalized),'followup':followup,'recommendation':recommendation,
- 'items':[{'id':q['id'],'label':q['short_form'],'answer':answers.get(str(q['id']),{}).get('value','unanswered'),
+ 'items':[{'id':q['id'],'label':q['short_form'],'text':q['text'],'answer':answers.get(str(q['id']),{}).get('value','unanswered'),
  'result':'unresolved' if q['id'] not in normalized else 'elevated likelihood' if raw['item_scores'][q['id']] else 'low likelihood'} for q in QUESTIONS]}
+
+class EvidenceSelection(StrictModel):
+ evidence_id: str
+ interpretation: str
+
+class CriterionSelection(StrictModel):
+ code: Literal['A1','A2','A3','B1','B2','B3','B4']
+ status: Literal['reported concern','no concern reported','insufficient evidence']
+ interpretation: str
+ evidence: list[EvidenceSelection]
+ missing_context: str
+
+class SelectedAnalysis(StrictModel):
+ criteria: list[CriterionSelection] = Field(min_length=7, max_length=7)
+ summary: str
+ strengths: list[str]
+ limitations: list[str]

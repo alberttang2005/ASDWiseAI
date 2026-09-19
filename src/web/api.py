@@ -9,12 +9,13 @@ from fastapi.responses import Response, StreamingResponse
 from .domain import SessionInput, Mutation, TurnInput, AnswerInput, ControlInput, ContextInput, QUESTIONS, ROOT, score
 from .store import Store
 from .providers import Provider
+from openai import APITimeoutError
 from . import reports
 
 def now():return datetime.now(timezone.utc).isoformat()
 def uid():return str(uuid.uuid4())
 
-def create_app(data_dir=None, provider=None, gateway_secret=None):
+def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout=120):
  store=Store()
  store.expire();store.recover()
  provider=provider or Provider()
@@ -37,6 +38,7 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
  app=FastAPI(docs_url=None,redoc_url=None,openapi_url=None,lifespan=lifespan)
  locks=defaultdict(asyncio.Lock);limits=defaultdict(deque);jobs=set()
  app.state.store=store
+ app.state.report_timeout=report_timeout
  @app.middleware('http')
  async def guard(request,call_next):
   if not secrets.compare_digest(request.headers.get('x-gateway-secret',''),secret):return Response(status_code=403)
@@ -80,7 +82,7 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
   if len(store.list(request.state.owner))>=20:raise HTTPException(409,'Delete an old session before creating another.')
   child={'name':body.name.strip(),'age':body.age,'relationship':body.relationship.strip()}
   if not child['name'] or not child['relationship']:raise HTTPException(422,'Enter a name and caregiver relationship.')
-  s={'id':uid(),'owner':request.state.owner,'child':child,'mode':body.mode,'consent':{'version':'2026-09-16','accepted_at':now()},'created':now(),'revision':0,'status':'running','index':0,'answers':{},'turns':[],'pending':None,'context':{'onset':'','impact':'','routines':'','interests':''},'requests':[],'reports':[],'report_status':'idle','report_error':None}
+  s={'id':uid(),'owner':request.state.owner,'child':child,'mode':body.mode,'observation_context':body.observation_context.model_dump(),'consent':{'version':'2026-09-16','accepted_at':now()},'created':now(),'revision':0,'status':'running','index':0,'answers':{},'turns':[],'pending':None,'context':{'onset':'','impact':'','routines':'','interests':'','other_observations':''},'requests':[],'reports':[],'report_status':'idle','report_error':None}
   turn(s,'guide','Welcome. I’m the ASDWise AI screening guide. We’ll review one question at a time. You can pause whenever you need.');ask(s);store.put(s);return public(s)
  @app.get('/sessions/{sid}')
  async def read(sid:str,request:Request):return public(get(sid,request))
@@ -124,19 +126,21 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
   async with locks[sid]:
    s=get(sid,request)
    if not check(s,body):return public(s)
+   if body.action=='keepalive':
+    s['requests']=(s['requests']+[body.request_id])[-200:];store.put(s);return public(s)
    if body.action in ('pause','stop'):
     if s['status']=='running':s['status']='paused' if body.action=='pause' else 'stopped'
    elif body.action=='resume':
     if s['status'] in ('paused','stopped'):s['status']='running'
    elif body.action=='reset':
-    s.update(index=0,status='running',answers={},turns=[],pending=None,context={'onset':'','impact':'','routines':'','interests':''});ask(s)
+    s.update(index=0,status='running',answers={},turns=[],pending=None,context={'onset':'','impact':'','routines':'','interests':'','other_observations':''});ask(s)
    return save(s,body)
  @app.patch('/sessions/{sid}/context')
  async def context(sid:str,body:ContextInput,request:Request):
   async with locks[sid]:
    s=get(sid,request)
    if not check(s,body):return public(s)
-   s['context']={k:getattr(body,k) for k in ['onset','impact','routines','interests']}
+   s['context']={k:getattr(body,k) for k in ['onset','impact','routines','interests','other_observations']}
    # Keep old context in audit history, mark superseded so reports cannot cite it as current.
    for t in s['turns']:
     if t.get('context_key'):t['role']='superseded'
@@ -146,7 +150,7 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
  async def generate(snapshot,owner,rid):
   try:
    ref=reports.reference()
-   analysis=await provider.evaluate(snapshot,ref)
+   analysis=await asyncio.wait_for(provider.evaluate(snapshot,ref),timeout=app.state.report_timeout)
    analysis=reports.validate_analysis(analysis,snapshot,ref)
    report=reports.assemble(snapshot,analysis,ref,provider.evaluator_model)
    report.update(id=rid,created=now())
@@ -154,10 +158,14 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
     current=store.get(snapshot['id'],owner)
     if current:
      current['reports'].append(report);current['reports']=current['reports'][-10:];current['report_status']='ready';current['report_error']=None;store.put(current)
-  except Exception:
+  except Exception as error:
+   timed_out=isinstance(error,(asyncio.TimeoutError,APITimeoutError))
    async with locks[snapshot['id']]:
     current=store.get(snapshot['id'],owner)
-    if current:current['report_status']='failed';current['report_error']='Report generation or evidence validation failed. No unverified report was saved. Please retry.';store.put(current)
+    if current:
+     current['report_status']='failed';current['report_error_code']='timeout' if timed_out else 'validation_or_provider'
+     current['report_error']='The report took too long. Your answers are still here. Retry when you are ready.' if timed_out else 'We could not verify this report. Your answers are still here. Please retry.'
+     store.put(current)
  @app.post('/sessions/{sid}/reports')
  async def generate_report(sid:str,body:Mutation,request:Request):
   async with locks[sid]:
@@ -165,7 +173,7 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
    if not check(s,body):return public(s)
    if s['status']!='complete':raise HTTPException(409,'Finish the interview before generating a report.')
    if s['report_status']=='generating':return public(s)
-   s['report_status']='generating';s['report_error']=None;s['requests'].append(body.request_id);store.put(s)
+   s['report_status']='generating';s['report_error']=None;s['report_error_code']=None;s['report_started_at']=time.time();s['report_deadline_at']=time.time()+report_timeout;s['requests'].append(body.request_id);store.put(s)
    task=asyncio.create_task(generate(copy.deepcopy(s),s['owner'],uid()));jobs.add(task);task.add_done_callback(jobs.discard)
    return public(s)
  @app.get('/sessions/{sid}/reports/{rid}')
@@ -187,7 +195,7 @@ def create_app(data_dir=None, provider=None, gateway_secret=None):
     if await request.is_disconnected():break
     s=store.get(sid,request.state.owner)
     if not s:break
-    token=(s['revision'],s['report_status'])
+    token=(s['revision'],s['report_status'],s.get('expires_at'))
     if token!=previous:yield 'data: '+json.dumps(public(s))+'\n\n';previous=token
     else:yield ': heartbeat\n\n'
     await asyncio.sleep(1)

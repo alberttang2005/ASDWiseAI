@@ -72,6 +72,24 @@ class APITests(unittest.TestCase):
   self.assertEqual(self.mutate(s,'/control',{'action':'step'}).status_code,422)
   self.provider.enabled=False
   self.assertEqual(self.request('POST','/sessions',json=body).status_code,503)
+ def test_session_extension_preserves_answers_and_report_revision(self):
+  s=self.create()
+  s=self.mutate(s,'/answers/1',{'value':'unknown'},'PATCH').json()
+  s=self.mutate(s,'/control',{'action':'pause'}).json()
+  original_expiry=s['expires_at']
+  r=self.mutate(s,'/control',{'action':'keepalive'})
+  self.assertEqual(r.status_code,200)
+  renewed=r.json()
+  self.assertGreaterEqual(renewed['expires_at'],original_expiry)
+  self.assertEqual(renewed['revision'],s['revision'])
+  self.assertEqual(renewed['answers'],s['answers'])
+  self.assertEqual(renewed['status'],'paused')
+  self.assertEqual(renewed['score']['items'][0]['text'],QUESTIONS[0]['text'])
+  self.assertEqual(renewed['score']['band'],'INCOMPLETE')
+ def test_expired_session_cannot_be_extended(self):
+  s=self.create()
+  self.app.state.store.sessions[s['id']]=(time.monotonic()-1801,s)
+  self.assertEqual(self.mutate(s,'/control',{'action':'keepalive'}).status_code,404)
  def test_age_and_blank_context_validation(self):
   for extra in [{'age':15},{'age':31},{'name':' '},{'relationship':' '}]:
    body={'name':'Test','age':24,'relationship':'Parent','consent':True,**extra}
@@ -161,9 +179,83 @@ class APITests(unittest.TestCase):
   self.assertEqual(list(Path(self.tmp.name).iterdir()),[])
   with patch('web.store.time.monotonic',return_value=time.monotonic()+1801):
    self.assertIsNone(self.app.state.store.get(s['id'],self.headers['x-owner']))
+ def test_report_timeout_preserves_answers_and_retries(self):
+  import asyncio
+  s=self.complete(self.create());answers=copy.deepcopy(s['answers'])
+  original=self.provider.evaluate
+  async def slow(*args):await asyncio.sleep(1)
+  self.provider.evaluate=slow;self.app.state.report_timeout=.02
+  self.assertEqual(self.mutate(s,'/reports').status_code,200)
+  for _ in range(50):
+   time.sleep(.01);s=self.request('GET','/sessions/'+s['id']).json()
+   if s['report_status']=='failed':break
+  self.assertEqual(s['report_error_code'],'timeout')
+  self.assertEqual(s['answers'],answers);self.assertEqual(s['reports'],[])
+  self.provider.evaluate=original;self.app.state.report_timeout=120
+  s,r=self.generate(s)
+  self.assertEqual(s['answers'],answers);self.assertEqual(len(s['reports']),1)
+ def test_observation_context_and_differences_reach_report(self):
+  scope={'setting':'Home during quiet play','frequency':'Evenings and weekends','familiarity':'Since birth'}
+  self.profile='low_likelihood'
+  r=self.request('POST','/sessions',json={'name':'Fictional Riley','age':20,'relationship':'Father','observation_context':scope,'consent':True})
+  self.assertEqual(r.status_code,200)
+  s=self.complete(r.json());score_before=s['score']['total']
+  difference='My partner reports less response during busy routines. I usually see a response in quiet play.'
+  s=self.mutate(s,'/context',{'other_observations':difference},'PATCH').json()
+  s,report=self.generate(s)
+  self.assertEqual(report['observation_context'],scope)
+  self.assertEqual(report['context']['other_observations'],difference)
+  self.assertEqual(report['score']['total'],score_before)
+  self.assertEqual(report['child']['relationship'],'Father')
  def test_three_profiles(self):
   for p in ['low_likelihood','moderate_likelihood','high_likelihood']:
    self.headers['x-owner']=str(uuid.uuid4())
    s=self.complete(self.create(profile=p));self.assertEqual(s['score']['band'],{'low_likelihood':'LOW','moderate_likelihood':'MODERATE','high_likelihood':'HIGH'}[p])
+
+class GuideFocusTests(unittest.TestCase):
+ def test_identity_and_detour_questions_are_not_shown(self):
+  from web.providers import focused_reply
+  for response in ["You said she but are listed as the father. Could you confirm her pronouns?", "Would you like a checklist?", "Shall I make a template?"]:
+   r=focused_reply({'response':response,'suggested_answer':'yes'})
+   self.assertEqual(r['suggested_answer'],'unknown')
+   self.assertIn('personally observed',r['response'])
+ def test_evidence_selection_keeps_exact_words_and_rejects_invented_id(self):
+  from web.providers import materialize_evidence
+  catalog={'E1':{'id':'original-turn','role':'caregiver','text':'She looks at me. My partner reports something different.'}}
+  source={'criteria':[{'code':code,'status':'insufficient evidence','interpretation':'More context is needed.','evidence':[{'evidence_id':'E1','interpretation':'Recorded words.'}],'missing_context':'Other settings'} for code in CRITERIA],'summary':'A caregiver account.','strengths':[],'limitations':[]}
+  result=materialize_evidence(copy.deepcopy(source),catalog)
+  self.assertEqual(result['criteria'][0]['evidence'][0]['quote'],catalog['E1']['text'])
+  self.assertEqual(result['criteria'][0]['evidence'][0]['turn_id'],'original-turn')
+  self.assertEqual(result['criteria'][0]['source_pages'],CRITERIA['A1'][1])
+  source['criteria'][0]['evidence'][0]['evidence_id']='invented'
+  with self.assertRaises(ValueError):materialize_evidence(source,catalog)
+ def test_evaluator_validation_retry_is_bounded(self):
+  import asyncio
+  from web.providers import Provider
+  from unittest.mock import AsyncMock
+  s={'turns':[]};ref=reports.reference();valid=demo_analysis(s,ref)
+  p=Provider.__new__(Provider)
+  p._evaluate_once=AsyncMock(side_effect=[ValueError('Unknown caregiver evidence ID'),copy.deepcopy(valid)])
+  self.assertEqual(len(asyncio.run(p.evaluate(s,ref))['criteria']),7)
+  self.assertEqual(p._evaluate_once.await_count,2)
+  self.assertEqual(p._evaluate_once.await_args.args[2],'Unknown caregiver evidence ID')
+  p._evaluate_once=AsyncMock(side_effect=ValueError('Unknown caregiver evidence ID'))
+  with self.assertRaises(ValueError):asyncio.run(p.evaluate(s,ref))
+  self.assertEqual(p._evaluate_once.await_count,2)
+ def test_no_pressure_when_caregiver_has_not_observed_enough(self):
+  import asyncio
+  from web.providers import Provider
+  p=Provider.__new__(Provider)
+  result=asyncio.run(p.guide({'current_question':QUESTIONS[18]},'I have not seen enough unfamiliar situations to answer reliably.'))
+  self.assertEqual(result['suggested_answer'],'unknown')
+  self.assertNotIn('?',result['response'])
+ def test_clear_observation_does_not_trigger_other_settings_question(self):
+  from web.providers import focused_reply
+  r=focused_reply({'response':'She looks to you during weekend play. Can you describe other settings?', 'suggested_answer':'unknown'})
+  self.assertEqual(r['response'],'She looks to you during weekend play.')
+ def test_normal_daughter_observation_is_preserved(self):
+  from web.providers import focused_reply
+  reply={'response':'Your daughter usually looks when you point during quiet play.','suggested_answer':'yes'}
+  self.assertEqual(focused_reply(reply),reply)
 
 if __name__=='__main__':unittest.main()

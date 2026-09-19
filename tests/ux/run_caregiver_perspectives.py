@@ -36,7 +36,16 @@ def scenarios():
    answers[19]={'response':'unknown','detail':prefix+'I have not seen enough unfamiliar situations to answer this reliably.'}
   if key=='dad':
    answers[10]['detail']=prefix+'My child usually looks when I call during quiet play. My partner says this happens less during busy routines. Should I report what I see or what my partner sees?'
-  result.append(dict(key=key,role=role,name=name,age=age,answers=answers,context=context))
+  if key=='daycare':
+   overrides={1:'In my classroom, the child usually looks at a toy I point toward, though sometimes looks at my hand first.',3:'During classroom play, the child pushes cars and lines them up but I have not seen pretend play.',8:'During free play in our classroom, the child watches peers but rarely joins their play.',10:'In class, the child usually turns when I call the name, sometimes after two calls.',12:'In our classroom the child covers ears when the hand dryer runs and during loud music.'}
+   for q,text in overrides.items():answers[q]['detail']=prefix+text
+  if key=='mom':answers[8]['detail']=prefix+'When cousins visit us at home, my child usually plays alone and does not approach them.'
+  if key=='dad':
+   answers[8]['detail']=prefix+'At the playground on weekends, she approaches children and tries to join their play.'
+   answers[19]['detail']='I am her father. When something unfamiliar happens during our weekend play, she looks at me to check my reaction.'
+   context['other_observations']='My partner told me the child responds less during busy weekday routines. I personally see a response during quiet weekend play. I have not observed those weekday situations.'
+  scope={'setting':{'daycare':'Weekday group classroom','mom':'Home and family play','dad':'Quiet one-to-one play at home and weekend playground'}[key],'frequency':{'daycare':'Weekdays','mom':'Most days','dad':'Evenings and weekends'}[key],'familiarity':{'daycare':'Eight weeks','mom':'Since birth','dad':'Since birth'}[key]}
+  result.append(dict(key=key,role=role,name=name,age=age,answers=answers,context=context,scope=scope))
  return result
 
 class ObservedProvider(Provider):
@@ -71,7 +80,7 @@ def run(spec):
    r=c.request(method,path,json=body,headers=h)
    if r.status_code!=200:raise RuntimeError(f'HTTP {r.status_code} at {path}')
    return r.json()
-  s=request('POST','/sessions',{'name':spec['name'],'age':spec['age'],'relationship':spec['role'],'consent':True})
+  s=request('POST','/sessions',{'name':spec['name'],'age':spec['age'],'relationship':spec['role'],'observation_context':spec['scope'],'consent':True})
   sid=s['id']
   def mutation(path,body=None,method='POST'):
    return request(method,'/sessions/'+sid+path,{'revision':s['revision'],'request_id':str(uuid.uuid4()),**(body or {})})
@@ -88,6 +97,7 @@ def run(spec):
      assert s['status']=='paused'
      s=mutation('/control',{'action':'resume'})
     if q%5==0:print(spec['key']+': '+str(q)+'/20 confirmed',flush=True)
+   out['checks']['focused_guide']=all(not any(word in e.get('response','').lower() for word in ('pronoun','gender','checklist','template')) for e in p.events if e['type']=='guide')
    out['checks']['completed_20']=s['status']=='complete' and len(s['answers'])==20
    out['score']=s['score'];out['checks']['pause_resume']=True
    if spec['key']=='daycare':out['checks']['uncertainty_preserved']=s['score']['total'] is None and s['score']['band']=='INCOMPLETE'
@@ -100,6 +110,8 @@ def run(spec):
    out['checks']['report_ready']=s['report_status']=='ready'
    if s['reports']:
     rid=s['reports'][-1]['id'];r=request('GET',f'/sessions/{sid}/reports/{rid}')
+    out['checks']['observation_context_preserved']=r.get('observation_context')==spec['scope']
+    out['checks']['different_observations_preserved']=r['context'].get('other_observations','')==spec['context'].get('other_observations','')
     out['report']=r
     pdf=c.get(f'/sessions/{sid}/reports/{rid}/pdf',headers=h)
     out['checks']['pdf_download']=pdf.status_code==200 and pdf.content.startswith(b'%PDF')

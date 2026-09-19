@@ -23,7 +23,7 @@ Use a private environment file outside the repository or deployment secrets:
 ```dotenv
 OPENAI_API_KEY=your-project-key
 THERAPIST_MODEL=gpt-5-nano
-EVALUATOR_MODEL=gpt-5-nano
+EVALUATOR_MODEL=gpt-5-mini
 TRANSCRIPTION_MODEL=gpt-4o-mini-transcribe
 SPEECH_MODEL=gpt-4o-mini-tts
 ```
@@ -60,3 +60,11 @@ PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -p 'test_haven.py'
 ```
 
 Tests use fictional caregiver data and fake providers. See [implementation status](docs/IMPLEMENTATION_STATUS.md) for live-provider verification and [the plan](docs/IMPLEMENTATION_PLAN.md) for remaining work.
+
+## Caregiver-perspective improvements
+
+The guide uses GPT-5 nano with minimal reasoning; report analysis defaults to GPT-5 mini with low reasoning. Models remain configurable. Reports have a 120-second application deadline; SDK retries are disabled, and at most one evidence-validation repair fits inside that same deadline. A timeout preserves answers for a deliberate retry. Model overrides may change latency and interpretation quality and should be re-tested.
+
+Optional onboarding context records setting, frequency, and familiarity. Additional context can retain another caregiver's differing observations, attributed as reported rather than assumed firsthand. Reports show that scope, lead with everyday observations and next steps, and keep technical criteria expandable. Exact quotes and page references are inserted from existing caregiver records and approved criterion mappings; the model selects evidence IDs. Unknown IDs, unsupported concerns, and reused concern evidence remain rejected.
+
+Provider metrics contain only operation, duration and token counts; no transcripts or credentials are logged.
