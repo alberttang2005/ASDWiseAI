@@ -1,0 +1,25 @@
+# Allowlist: never upload research data, credentials, Git history, or local caches.
+**
+!Dockerfile
+!.dockerignore
+!website-designs/
+!website-designs/package.json
+!website-designs/package-lock.json
+!website-designs/next.config.mjs
+!website-designs/app/
+!website-designs/app/**
+!website-designs/public/
+!website-designs/public/**
+!website-designs/scripts/
+!website-designs/scripts/pilot.mjs
+!src/
+!src/web/
+!src/web/**
+!src/utils/
+!src/utils/__init__.py
+!src/utils/mchat_scorer.py
+!src/data/
+!src/data/mchat_questions.json
+**/__pycache__/**
+**/*.pyc
+**/.env*

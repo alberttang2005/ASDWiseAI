@@ -1,6 +1,10 @@
 """Volatile interview state only. Never writes caregiver data to disk."""
 import copy
+import json
 import time
+
+class SessionTooLarge(ValueError):
+ pass
 
 class Store:
  def __init__(self, directory=None, ttl_seconds=1800):
@@ -9,6 +13,8 @@ class Store:
   self.sessions={}
  def put(self,s):
   s['expires_at']=time.time()+self.ttl_seconds
+  if len(s.get('turns', [])) > 300 or len(json.dumps(s,ensure_ascii=False).encode('utf-8')) > 2*1024*1024:
+   raise SessionTooLarge('Session limit reached. Download your report or start a new session.')
   self.sessions[s['id']]=(time.monotonic(),copy.deepcopy(s))
  def get(self,sid,owner):
   self.expire()

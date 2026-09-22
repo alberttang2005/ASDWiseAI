@@ -1,13 +1,13 @@
 """Local-pilot API. Run one worker behind the authenticated Next.js gateway."""
 import asyncio, copy, hashlib, json, os, secrets, time, uuid
-from collections import defaultdict, deque
 from contextlib import asynccontextmanager, suppress
 from datetime import datetime, timezone
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import Response, StreamingResponse
+from fastapi.responses import Response, StreamingResponse, JSONResponse
 from .domain import SessionInput, Mutation, TurnInput, AnswerInput, ControlInput, ContextInput, QUESTIONS, ROOT, score
-from .store import Store
+from .store import Store, SessionTooLarge
+from .security import RequestLimits, SessionLocks, AIBudget
 from .providers import Provider
 from openai import APITimeoutError
 from . import reports
@@ -15,7 +15,7 @@ from . import reports
 def now():return datetime.now(timezone.utc).isoformat()
 def uid():return str(uuid.uuid4())
 
-def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout=120):
+def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout=120, request_limits=None, ai_budget=None):
  store=Store()
  store.expire();store.recover()
  provider=provider or Provider()
@@ -26,7 +26,7 @@ def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout
   async def cleanup():
    while True:
     await asyncio.sleep(30)
-    store.expire()
+    store.expire();limits.expire()
   cleanup_task=asyncio.create_task(cleanup())
   try:yield
   finally:
@@ -36,21 +36,28 @@ def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout
    if jobs:await asyncio.gather(*jobs,return_exceptions=True)
    store.clear()
  app=FastAPI(docs_url=None,redoc_url=None,openapi_url=None,lifespan=lifespan)
- locks=defaultdict(asyncio.Lock);limits=defaultdict(deque);jobs=set()
+ locks=SessionLocks();limits=request_limits or RequestLimits();budget=ai_budget or AIBudget();jobs=set()
+ app.state.jobs=jobs
+ app.state.limits=limits;app.state.locks=locks;app.state.ai_budget=budget
  app.state.store=store
  app.state.report_timeout=report_timeout
+ @app.exception_handler(SessionTooLarge)
+ async def session_limit(request,error):return JSONResponse({'detail':str(error)},status_code=413)
  @app.middleware('http')
  async def guard(request,call_next):
   if not secrets.compare_digest(request.headers.get('x-gateway-secret',''),secret):return Response(status_code=403)
+  # Health probes must not consume interview quotas or trigger budget-resetting restarts.
+  if request.method=='GET' and request.url.path=='/ready':return JSONResponse({'ready':True},headers={'Cache-Control':'no-store'})
   owner=request.headers.get('x-owner','')
   try:uuid.UUID(owner)
   except ValueError:return Response(status_code=403)
   request.state.owner=owner
-  q=limits[owner];current=time.monotonic()
-  while q and q[0]<current-60:q.popleft()
-  if len(q)>120:return Response('Too many requests. Please wait a minute.',status_code=429)
-  q.append(current)
-  if int(request.headers.get('content-length','0') or 0)>8*1024*1024:return Response(status_code=413)
+  if not limits.allow(owner,request.method=='POST' and request.url.path=='/sessions'):
+   return JSONResponse({'detail':'Too many requests. Please wait a minute.'},status_code=429,headers={'Retry-After':'60','Cache-Control':'no-store'})
+  try:length=int(request.headers.get('content-length','0') or 0)
+  except ValueError:return Response(status_code=400)
+  if length<0:return Response(status_code=400)
+  if length>8*1024*1024:return Response(status_code=413)
   result=await call_next(request);result.headers['Cache-Control']='no-store';return result
  def get(sid,request):
   s=store.get(sid,request.state.owner)
@@ -98,7 +105,8 @@ def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout
    active(s)
    if len(s['turns'])>180:raise HTTPException(422,'Conversation limit reached. Review your responses.')
    if not body.text.strip():raise HTTPException(422,'Enter a response.')
-   try:reply=await provider.guide(s,body.text)
+   try:reply=await budget.call(1,provider.guide,s,body.text)
+   except HTTPException:raise
    except Exception:raise HTTPException(502,'The guide could not respond. Your answer has not advanced; please retry.')
    t=turn(s,'caregiver',body.text.strip(),s['current_question']['id'],modality=body.modality,original_transcript=body.original_transcript)
    turn(s,'guide',reply['response'],s['current_question']['id'])
@@ -144,6 +152,9 @@ def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout
    # Keep old context in audit history, mark superseded so reports cannot cite it as current.
    for t in s['turns']:
     if t.get('context_key'):t['role']='superseded'
+   # Keep at most ten prior five-field context versions.
+   old_context=[t for t in s['turns'] if t.get('context_key')][-50:]
+   s['turns']=[t for t in s['turns'] if not t.get('context_key')]+old_context
    for k,v in s['context'].items():
     if v.strip():turn(s,'caregiver',v.strip(),context_key=k,modality='text')
    return save(s,body)
@@ -173,8 +184,13 @@ def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout
    if not check(s,body):return public(s)
    if s['status']!='complete':raise HTTPException(409,'Finish the interview before generating a report.')
    if s['report_status']=='generating':return public(s)
-   s['report_status']='generating';s['report_error']=None;s['report_error_code']=None;s['report_started_at']=time.time();s['report_deadline_at']=time.time()+report_timeout;s['requests'].append(body.request_id);store.put(s)
-   task=asyncio.create_task(generate(copy.deepcopy(s),s['owner'],uid()));jobs.add(task);task.add_done_callback(jobs.discard)
+   budget.reserve(20)  # Includes the evaluator's one permitted validation retry.
+   try:
+    s['report_status']='generating';s['report_error']=None;s['report_error_code']=None;s['report_started_at']=time.time();s['report_deadline_at']=time.time()+report_timeout;s['requests']=(s['requests']+[body.request_id])[-200:];store.put(s)
+    task=asyncio.create_task(generate(copy.deepcopy(s),s['owner'],uid()));jobs.add(task)
+    task.add_done_callback(lambda task:(jobs.discard(task),budget.release()))
+   except BaseException:
+    budget.release();raise
    return public(s)
  @app.get('/sessions/{sid}/reports/{rid}')
  async def report_json(sid:str,rid:str,request:Request):
@@ -212,7 +228,8 @@ def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout
    if size>8*1024*1024:raise HTTPException(413,'Recording too large. Use a shorter recording.')
    chunks.append(chunk)
   if size<100:raise HTTPException(422,'No audio captured.')
-  try:text=await provider.transcribe(b''.join(chunks),mime)
+  try:text=await budget.call(3,provider.transcribe,b''.join(chunks),mime)
+  except HTTPException:raise
   except Exception:raise HTTPException(502,'Transcription failed. Please retry or type.')
   if not text.strip():raise HTTPException(422,'No speech detected. Please try again.')
   return {'text':text[:6000]}
@@ -223,7 +240,8 @@ def create_app(data_dir=None, provider=None, gateway_secret=None, report_timeout
   if not provider.enabled:raise HTTPException(503,'Audio requires the server API key.')
   body=await request.json();t=next((t for t in s['turns'] if t['id']==body.get('turn_id') and t['role']=='guide'),None)
   if not t:raise HTTPException(422,'Guide message not found')
-  try:audio=await provider.speech(t['text'])
+  try:audio=await budget.call(2,provider.speech,t['text'])
+  except HTTPException:raise
   except Exception:raise HTTPException(502,'Speech playback unavailable. The text is still available.')
   return Response(audio,media_type='audio/mpeg')
  return app

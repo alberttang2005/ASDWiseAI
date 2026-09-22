@@ -67,3 +67,7 @@ src/data/chroma_db/
 *.db
 node_modules/
 .next/
+
+# Generated Vercel staging
+.vercel-source/
+.vercel/

@@ -1,4 +1,5 @@
 'use client';
+import {sessionFetch} from '../session-client.mjs';
 import {useEffect,useRef,useState} from 'react';
 export default function VoiceControls({session,enabled,disabled,onTranscript,onError}) {
  const [state,setState]=useState('idle'),[seconds,setSeconds]=useState(0),[playing,setPlaying]=useState(false);
@@ -24,8 +25,8 @@ export default function VoiceControls({session,enabled,disabled,onTranscript,onE
     setState('transcribing');const controller=new AbortController();request.current=controller;
     try {
      const blob=new Blob(chunks.current,{type:mime});chunks.current=[];
-     if(blob.size>8*1024*1024)throw Error('Recording too large. Please record a shorter response.');
-     const response=await fetch(`/api/sessions/${session.id}/audio/transcriptions`,{method:'POST',headers:{'Content-Type':mime},body:blob,signal:controller.signal});
+     if(blob.size>750*1024)throw Error('Recording too large. Please record a shorter response.');
+     const response=await sessionFetch(`/sessions/${session.id}/audio/transcriptions`,{method:'POST',headers:{'Content-Type':mime},body:blob,signal:controller.signal});
      const data=await response.json();if(!response.ok)throw Error(data.detail||'Transcription failed.');
      if(epoch===generation.current)onTranscript(data.text);
     }catch(e){if(e.name!=='AbortError'&&epoch===generation.current)onError(e.message)}
@@ -39,7 +40,7 @@ export default function VoiceControls({session,enabled,disabled,onTranscript,onE
   stopAll();const epoch=generation.current;setPlaying(true);const controller=new AbortController();request.current=controller;
   try {
    const t=[...session.turns].reverse().find(t=>t.role==='guide');
-   const response=await fetch(`/api/sessions/${session.id}/audio/speech`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({turn_id:t.id}),signal:controller.signal});
+   const response=await sessionFetch(`/sessions/${session.id}/audio/speech`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({turn_id:t.id}),signal:controller.signal});
    if(!response.ok){const d=await response.json();throw Error(d.detail||'Playback unavailable.')}
    const blob=await response.blob();if(epoch!==generation.current)return;
    url.current=URL.createObjectURL(blob);audio.current=new Audio(url.current);audio.current.onended=()=>stopAll();await audio.current.play();

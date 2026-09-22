@@ -1,9 +1,18 @@
 'use client';
+import {useState} from 'react';
+import {sessionFetch} from '../session-client.mjs';
 export default function Report({report,session,onBack}) {
+ const [downloadError,setDownloadError]=useState(''),[downloading,setDownloading]=useState(false);
+ async function download(){setDownloading(true);setDownloadError('');try{
+  const response=await sessionFetch(`/sessions/${session.id}/reports/${report.id}/pdf`);
+  if(!response.ok){const data=await response.json();throw Error(data.detail||'Download failed.');}
+  const url=URL.createObjectURL(await response.blob());const a=document.createElement('a');a.href=url;a.download='ASDWise-screening-report.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }catch(e){setDownloadError(e.message)}finally{setDownloading(false)}}
  const stale=report.revision!==session.revision;
  return <section className="report detailed-report"><div className="eyebrow">CAREGIVER SCREENING REPORT</div><h1>A clearer picture.<br/>A thoughtful next step.</h1><p>{report.child.name} · {report.child.age} months · {new Date(report.created).toLocaleDateString()}</p>
  {stale&&<div className="notice" role="alert">Your responses have changed. Generate an updated report before downloading.</div>}
- <div className="report-actions"><button className="secondary" onClick={onBack}>← Review responses</button>{!stale&&<a className="primary" href={`/api/sessions/${session.id}/reports/${report.id}/pdf`}>Download PDF ↓</a>}</div>
+ <div className="report-actions"><button className="secondary" onClick={onBack}>← Review responses</button>{!stale&&<button className="primary" disabled={downloading} onClick={download}>{downloading?'Downloading…':'Download PDF ↓'}</button>}</div>
+ {downloadError&&<p role="alert">{downloadError}</p>}
  <details className="criterion observation-scope"><summary>About these observations · {report.child.relationship||'Caregiver'}{report.observation_context?.setting?` · ${report.observation_context.setting}`:''}</summary><h2>Whose observations are included</h2><p><strong>Caregiver:</strong> {report.child.relationship||'Not specified'}</p>{[['setting','Setting'],['frequency','Frequency / times'],['familiarity','Time caring for the child']].map(([key,label])=><p key={key}><strong>{label}:</strong> {report.observation_context?.[key]||'Not specified'}</p>)}<p>This report reflects one caregiver’s account. Different settings can bring different observations.</p></details>
  <nav className="report-jump" aria-label="Report sections"><a href="#score">Screening</a><a href="#summary">What you shared</a><a href="#observations">Supporting detail</a><a href="#recommendations">Next steps</a></nav>
  <div className="report-banner" id="score"><div className="stat"><strong>{report.score.total??'—'}<small> / 20</small></strong></div><div><h3>{report.score.band==='INCOMPLETE'?'Responses need review':`${report.score.band.toLowerCase()} likelihood · initial screen`}</h3><p>Formal Follow-Up: {report.score.followup}</p></div></div><p>{report.score.recommendation}</p>

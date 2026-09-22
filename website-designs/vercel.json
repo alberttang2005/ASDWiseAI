@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "functions": {"api/index.py": {"maxDuration": 180}},
+  "redirects": [{"source": "/:path*", "has": [{"type":"host", "value":"www.asdwiseai.org"}], "destination":"https://asdwiseai.org/:path*", "permanent":true}]
+}
