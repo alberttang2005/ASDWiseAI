@@ -90,11 +90,9 @@ def pdf(report):
  story.append(p('Onset, functional impact, and alternative explanations require professional assessment. No diagnostic or severity determination is made.'))
  heading('Recommendations')
  for k,v in report['recommendations'].items():story.extend([p(k,'Heading3'),p(v)])
- story.append(PageBreak());heading('Limitations and references')
+ story.append(PageBreak());heading('Limitations')
  for x in report['analysis']['limitations']:story.append(p(x))
  story.append(p(report['disclaimer']))
- for r in report['references']:story.append(p(' · '.join(str(r[k]) for k in ['title','author','date','status','url'] if k in r),'SmallHaven'))
- story.append(p('Model: '+report['model']+' · '+report['prompt_version'],'SmallHaven'))
  def footer(canvas,doc):
   canvas.setFont('Helvetica',8);canvas.setFillColor(colors.HexColor('#315e4b'));canvas.drawString(42,25,'ASDwise · Screening is not diagnosis');canvas.drawRightString(553,25,str(doc.page))
  doc.build(story,onFirstPage=footer,onLaterPages=footer)
