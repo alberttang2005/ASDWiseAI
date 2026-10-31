@@ -11,7 +11,7 @@ for (const name of ['app','public','api','package.json','package-lock.json','nex
 // The old local gateway is not part of the Vercel application.
 await rm(path.join(output,'app','api'),{recursive:true,force:true});
 await rm(path.join(output,'app','healthz'),{recursive:true,force:true});
-for (const name of ['__init__.py','api.py','domain.py','store.py','security.py','providers.py','reports.py','reference.json','serverless.py']) await cp(path.join(root,'src','web',name),path.join(output,'backend','web',name));
+for (const name of ['__init__.py','api.py','domain.py','store.py','security.py','providers.py','reports.py','report_pdf.py','reference.json','serverless.py']) await cp(path.join(root,'src','web',name),path.join(output,'backend','web',name));
 await mkdir(path.join(output,'backend','utils'),{recursive:true});
 for(const name of ['__init__.py','mchat_scorer.py']) await cp(path.join(root,'src','utils',name),path.join(output,'backend','utils',name));
 await mkdir(path.join(output,'backend','data'),{recursive:true});

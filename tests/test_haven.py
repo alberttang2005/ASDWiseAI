@@ -144,6 +144,18 @@ class APITests(unittest.TestCase):
   s,r=self.generate(s);self.assertEqual(len(r['analysis']['criteria']),7)
   path=f"/sessions/{s['id']}/reports/{r['id']}/pdf";pdf=self.request('GET',path)
   self.assertEqual(pdf.status_code,200,pdf.text if pdf.status_code!=200 else '');self.assertTrue(pdf.content.startswith(b'%PDF'))
+  from io import BytesIO
+  from pypdf import PdfReader
+  pages=[page.extract_text() for page in PdfReader(BytesIO(pdf.content)).pages]
+  text='\n'.join(pages)
+  for heading in ['ASDWise Screening Report','M-CHAT-R Item Responses','Screening Observations (DSM-5-Informed)',
+                  'Criterion A: Social Communication and Interaction','Criterion B: Restricted, Repetitive Behaviors',
+                  'Overall Assessment','Recommendations','Important Disclaimer']:
+   self.assertIn(heading,text)
+  self.assertLess(text.index('M-CHAT-R Item Responses'),text.index('Screening Observations (DSM-5-Informed)'))
+  self.assertLess(text.index('Overall Assessment'),text.index('Recommendations'))
+  self.assertNotIn('Model:',text)
+  self.assertNotIn('Synthetic demonstration only.',pages[0])
 
   s=self.mutate(s,'/answers/1',{'value':'unknown'},'PATCH').json();self.assertIsNone(s['score']['total']);self.assertEqual(self.request('GET',path).status_code,409)
   s,r=self.generate(s);self.assertEqual(r['score']['band'],'INCOMPLETE')

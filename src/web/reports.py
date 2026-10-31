@@ -50,50 +50,9 @@ def assemble(session,analysis,ref,model):
  'disclaimer':DISCLAIMER,'recommendations':{
  'Primary recommendation':score(session['answers'])['recommendation'],
  'Secondary recommendation':'Bring examples of everyday communication, play, routines, and sensory experiences to your care team. Discuss both strengths and concerns.',
- 'Additional resources':'The official M-CHAT-R/F scoring guidance and CDC clinical assessment overview are listed in References.',
+ 'Additional resources':'Official M-CHAT-R/F scoring guidance: mchatscreen.com/mchat-rf/scoring/. CDC autism screening guidance: cdc.gov/autism/diagnosis/. Ask your healthcare professional about local early intervention and evaluation options.',
  'Follow-up plan':'Discuss the appropriate follow-up and timing with your child’s healthcare professional. No appointment or referral has been scheduled by this application.'}}
 
 def pdf(report):
- styles=getSampleStyleSheet()
- styles.add(ParagraphStyle(name='Haven',fontName='Helvetica',fontSize=10,leading=15,spaceAfter=8,textColor=colors.HexColor('#294638')))
- styles.add(ParagraphStyle(name='SmallHaven',parent=styles['Haven'],fontSize=8,leading=11))
- def p(t,style='Haven'):return Paragraph(escape(str(t)).replace('\n','<br/>'),styles[style])
- out=BytesIO();doc=SimpleDocTemplate(out,pagesize=(595,842),rightMargin=42,leftMargin=42,topMargin=42,bottomMargin=45,title='ASDWise screening report',author='ASDWise')
- story=[p('ASDwise | Screening report','Title'),p(report['child']['name']+' · '+str(report['child']['age'])+' months'),p(report['created']+' · '+'Caregiver interview'),p('Report '+report['id'][:8]+' · input revision '+str(report['revision']),'SmallHaven')]
- def heading(t):story.extend([Spacer(1,12),p(t,'Heading2')])
- heading('Whose observations are included')
- story.append(p('Caregiver relationship: '+report['child'].get('relationship','Not specified')))
- for key,label in [('setting','Setting'),('frequency','Frequency / times'),('familiarity','Time caring for the child')]:story.append(p(label+': '+(report.get('observation_context',{}).get(key) or 'Not specified')))
- story.append(p('This report reflects one caregiver’s account. Reports from others are identified as secondhand unless directly observed.','SmallHaven'))
- heading('Initial screening summary')
- s=report['score'];story.extend([p(f"{s['total'] if s['total'] is not None else 'Incomplete'} / 20 · {s['band']}"),p('Formal Follow-Up: '+s['followup']),p(s['recommendation'])])
- heading('What you shared')
- story.append(p(report['analysis']['summary']))
- for strength in report['analysis']['strengths']:story.append(p('Reported strength: '+strength))
- if report['context'].get('other_observations'):
-  heading('Other caregiver observations, as reported')
-  story.append(p(report['context']['other_observations']))
-  story.append(p('These differences are preserved, not resolved by this screening tool.','SmallHaven'))
- heading('M-CHAT-R item responses')
- rows=[[p(x,'SmallHaven') for x in ['#','Item','Answer','Result']]]+[[p(x,'SmallHaven') for x in [q['id'],q['label'],q['answer'],q['result']]] for q in s['items']]
- t=Table(rows,colWidths=[25,220,78,188],repeatRows=1,hAlign='LEFT');t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#e7efe8')),('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,-1),.3,colors.HexColor('#cddacf')),('LEFTPADDING',(0,0),(-1,-1),6),('TOPPADDING',(0,0),(-1,-1),5)]));story.append(t)
- story.append(PageBreak());heading('DSM-5-informed observations')
- for c in report['analysis']['criteria']:
-  story.append(KeepTogether([p(c['code']+' — '+c['title'],'Heading3'),p(c['status'].capitalize()),p(c['interpretation'])]))
-  for e in c['evidence']:
-   story.append(KeepTogether([p(('Q'+str(e['question_id']) if e.get('question_id') else 'Supplemental context')+' · '+e['turn_id'][:8],'SmallHaven'),p('“'+e['quote']+'”'),p('Interpretation: '+e['interpretation'])]))
-  story.extend([p('Missing context: '+c['missing_context']),p('Carpenter, February 2013, pp. '+', '.join(map(str,c['source_pages'])),'SmallHaven')])
-
- heading('Additional diagnostic context')
- for k,v in report['context'].items():
-  if k!='other_observations':story.append(p(k.capitalize()+': '+(v or 'Not reported')))
- story.append(p('Onset, functional impact, and alternative explanations require professional assessment. No diagnostic or severity determination is made.'))
- heading('Recommendations')
- for k,v in report['recommendations'].items():story.extend([p(k,'Heading3'),p(v)])
- story.append(PageBreak());heading('Limitations')
- for x in report['analysis']['limitations']:story.append(p(x))
- story.append(p(report['disclaimer']))
- def footer(canvas,doc):
-  canvas.setFont('Helvetica',8);canvas.setFillColor(colors.HexColor('#315e4b'));canvas.drawString(42,25,'ASDwise · Screening is not diagnosis');canvas.drawRightString(553,25,str(doc.page))
- doc.build(story,onFirstPage=footer,onLaterPages=footer)
- return out.getvalue()
+ from .report_pdf import pdf as render_pdf
+ return render_pdf(report)
